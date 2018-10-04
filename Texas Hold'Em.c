@@ -177,14 +177,14 @@ void fillPointCalculationComputer(){
 	fclose(points);
 }
 
-
+//checks if player has 5 cards of the same value and returns an integer for checking points
 int checkFivePlayer(){
+	//opens the file where the cards are stored
 	FILE *points;
 	points = fopen("points1.txt", "r");
 	char p;
-	
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
-	
+	int i, rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
 	while((p=fgetc(points)) != EOF){
 		switch(p){
 			case'2': f2++; break;
@@ -202,56 +202,24 @@ int checkFivePlayer(){
 			case'A': f14++; break;
 		}
 	}
-	
-	if(f2==5){
-		return FIVE + 2;
+	//checks if the cards have 5 of the same face value and returns an integer for comparison
+	for(i=0;i<RANK;i++){
+		if(rank[i]==5){
+			return FIVE + i;
+		}
 	}
-	else if(f3==5){
-		return FIVE +3;
-	}
-	else if(f4==5){
-		return FIVE +4;
-	}
-	else if(f5==5){
-		return FIVE +5;
-	}
-	else if(f6==5){
-		return FIVE +6;
-	}
-	else if(f7==5){
-		return FIVE +7;
-	}
-	else if(f8==5){
-		return FIVE +8;
-	}
-	else if(f9==5){
-		return FIVE +9;
-	}
-	else if(f10==5){
-		return FIVE +10;
-	}
-	else if(f11==5){
-		return FIVE +11;
-	}
-	else if(f12==5){
-		return FIVE +12;
-	}
-	else if(f13==5){
-		return FIVE +13;
-	}
-	else if(f14==5){
-		return FIVE +14;
-	}
-		
-	
+
+
 	fclose(points);
 }
 
+//checks if Computer has 5 cards of the same value and returns an integer for checking points
 int checkFiveComputer(){
 	FILE *points;
 	points = fopen("points2.txt", "r");
 	char p;
 	
+	
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
 	
 	while((p=fgetc(points)) != EOF){
@@ -316,6 +284,7 @@ int checkFiveComputer(){
 	fclose(points);
 }
 
+//checks if player has 4 cards of the same value and returns an integer for checking points
 int checkFourPlayer(){
 	FILE *points;
 	points = fopen("points1.txt", "r");
@@ -385,6 +354,7 @@ int checkFourPlayer(){
 	fclose(points);
 }
 
+//checks if computer has 4 cards of the same value and returns an integer for checking points
 int checkFourComputer(){
 	FILE *points;
 	points = fopen("points2.txt", "r");

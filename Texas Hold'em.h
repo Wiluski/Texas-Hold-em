@@ -7,6 +7,7 @@
 #define TABLE 5
 #define CARD 2
 #define TABLE2 14
+#define RANK 13
 #define CARDS 19
 #define PAIR 100
 #define PAIR2 200
