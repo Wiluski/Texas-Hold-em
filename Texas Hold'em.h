@@ -25,11 +25,16 @@ void menu();
 void compare();
 void fillPointCalculationPlayer();
 void fillPointCalculationComputer();
+int checkFivePlayer();
+int checkFiveComputer();
+int checkFourPlayer();
+int checkFourComputer();
 int checkFlushPlayer();
 int checkFlushComputer();
-int checkPairsPlayer();
-int checkPairsComputer();
-
+int checkStraightPlayer();
+int checkStraightComputer();
+int checkThreePlayer();
+int checkThreeComputer();
 
 
 

@@ -132,7 +132,7 @@ void compare(){
 			fillPointCalculationPlayer();
 			//runs the function for filling a file with cards which computer uses
 			fillPointCalculationComputer();
-			checkFlushPlayer();
+			//checkFlushPlayer();
 	}else{
 		//if any of the cards match eachother the cards are dealt again
 		deal();
@@ -174,6 +174,283 @@ void fillPointCalculationComputer(){
 		
 	fclose(hand);
 	fclose(table);
+	fclose(points);
+}
+
+
+int checkFivePlayer(){
+	FILE *points;
+	points = fopen("points1.txt", "r");
+	char p;
+	
+	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	
+	while((p=fgetc(points)) != EOF){
+		switch(p){
+			case'2': f2++; break;
+			case'3': f3++; break;
+			case'4': f4++; break;
+			case'5': f5++; break;
+			case'6': f6++; break;
+			case'7': f7++; break;
+			case'8': f8++; break;
+			case'9': f9++; break;
+			case'T': f10++; break;
+			case'J': f11++; break;
+			case'Q': f12++; break;
+			case'K': f13++; break;
+			case'A': f14++; break;
+		}
+	}
+	
+	if(f2==5){
+		return FIVE + 2;
+	}
+	else if(f3==5){
+		return FIVE +3;
+	}
+	else if(f4==5){
+		return FIVE +4;
+	}
+	else if(f5==5){
+		return FIVE +5;
+	}
+	else if(f6==5){
+		return FIVE +6;
+	}
+	else if(f7==5){
+		return FIVE +7;
+	}
+	else if(f8==5){
+		return FIVE +8;
+	}
+	else if(f9==5){
+		return FIVE +9;
+	}
+	else if(f10==5){
+		return FIVE +10;
+	}
+	else if(f11==5){
+		return FIVE +11;
+	}
+	else if(f12==5){
+		return FIVE +12;
+	}
+	else if(f13==5){
+		return FIVE +13;
+	}
+	else if(f14==5){
+		return FIVE +14;
+	}
+		
+	
+	fclose(points);
+}
+
+int checkFiveComputer(){
+	FILE *points;
+	points = fopen("points2.txt", "r");
+	char p;
+	
+	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	
+	while((p=fgetc(points)) != EOF){
+		switch(p){
+			case'2': f2++; break;
+			case'3': f3++; break;
+			case'4': f4++; break;
+			case'5': f5++; break;
+			case'6': f6++; break;
+			case'7': f7++; break;
+			case'8': f8++; break;
+			case'9': f9++; break;
+			case'T': f10++; break;
+			case'J': f11++; break;
+			case'Q': f12++; break;
+			case'K': f13++; break;
+			case'A': f14++; break;
+		}
+	}
+	
+	if(f2==5){
+		return FIVE + 2;
+	}
+	else if(f3==5){
+		return FIVE +3;
+	}
+	else if(f4==5){
+		return FIVE +4;
+	}
+	else if(f5==5){
+		return FIVE +5;
+	}
+	else if(f6==5){
+		return FIVE +6;
+	}
+	else if(f7==5){
+		return FIVE +7;
+	}
+	else if(f8==5){
+		return FIVE +8;
+	}
+	else if(f9==5){
+		return FIVE +9;
+	}
+	else if(f10==5){
+		return FIVE +10;
+	}
+	else if(f11==5){
+		return FIVE +11;
+	}
+	else if(f12==5){
+		return FIVE +12;
+	}
+	else if(f13==5){
+		return FIVE +13;
+	}
+	else if(f14==5){
+		return FIVE +14;
+	}
+		
+	
+	fclose(points);
+}
+
+int checkFourPlayer(){
+	FILE *points;
+	points = fopen("points1.txt", "r");
+	char p;
+	
+	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	
+	while((p=fgetc(points)) != EOF){
+		switch(p){
+			case'2': f2++; break;
+			case'3': f3++; break;
+			case'4': f4++; break;
+			case'5': f5++; break;
+			case'6': f6++; break;
+			case'7': f7++; break;
+			case'8': f8++; break;
+			case'9': f9++; break;
+			case'T': f10++; break;
+			case'J': f11++; break;
+			case'Q': f12++; break;
+			case'K': f13++; break;
+			case'A': f14++; break;
+		}
+	}
+	
+	if(f2==4){
+		return FOUR + 2;
+	}
+	else if(f3==4){
+		return FOUR +3;
+	}
+	else if(f4==4){
+		return FOUR +4;
+	}
+	else if(f5==4){
+		return FOUR +5	;
+	}
+	else if(f6==4){
+		return FOUR +6;
+	}
+	else if(f7==4){
+		return FOUR +7;
+	}
+	else if(f8==4){
+		return FOUR +8;
+	}
+	else if(f9==4){
+		return FOUR +9;
+	}
+	else if(f10==4){
+		return FOUR +10;
+	}
+	else if(f11==4){
+		return FOUR +11;
+	}
+	else if(f12==4){
+		return FOUR +12;
+	}
+	else if(f13==4){
+		return FOUR +13;
+	}
+	else if(f14==4){
+		return FOUR +14;
+	}
+		
+	
+	fclose(points);
+}
+
+int checkFourComputer(){
+	FILE *points;
+	points = fopen("points2.txt", "r");
+	char p;
+	
+	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	
+	while((p=fgetc(points)) != EOF){
+		switch(p){
+			case'2': f2++; break;
+			case'3': f3++; break;
+			case'4': f4++; break;
+			case'5': f5++; break;
+			case'6': f6++; break;
+			case'7': f7++; break;
+			case'8': f8++; break;
+			case'9': f9++; break;
+			case'T': f10++; break;
+			case'J': f11++; break;
+			case'Q': f12++; break;
+			case'K': f13++; break;
+			case'A': f14++; break;
+		}
+	}
+	
+	if(f2==4){
+		return FOUR +2;
+	}
+	else if(f3==4){
+		return FOUR +3;
+	}
+	else if(f4==4){
+		return FOUR +4;
+	}
+	else if(f5==4){
+		return FOUR +5;
+	}
+	else if(f6==4){
+		return FOUR +6;
+	}
+	else if(f7==4){
+		return FOUR +7;
+	}
+	else if(f8==4){
+		return FOUR +8;
+	}
+	else if(f9==4){
+		return FOUR +9;
+	}
+	else if(f10==4){
+		return FOUR +10;
+	}
+	else if(f11==4){
+		return FOUR +11;
+	}
+	else if(f12==4){
+		return FOUR +12;
+	}
+	else if(f13==4){
+		return FOUR +13;
+	}
+	else if(f14==4){
+		return FOUR +14;
+	}
+		
+	
 	fclose(points);
 }
 
@@ -247,7 +524,21 @@ int checkFlushComputer(){
 	}
 }
 
-int checkPairsPlayer(){
+int checkStraightPlayer(){
+	FILE *points;
+	points = fopen("points1.txt", "r");
+	
+	fclose(points);
+}
+
+int checkStraightComputer(){
+	FILE *points;
+	points = fopen("points2.txt", "r");
+	
+	fclose(points);
+}
+
+int checkThreePlayer(){
 	FILE *points;
 	points = fopen("points1.txt", "r");
 	char p;
@@ -272,12 +563,115 @@ int checkPairsPlayer(){
 		}
 	}
 	
+	if(f2==3){
+		return THREE + 2;
+	}
+	else if(f3==3){
+		return THREE +3;
+	}
+	else if(f4==3){
+		return THREE +4;
+	}
+	else if(f5==3){
+		return THREE +5	;
+	}
+	else if(f6==3){
+		return THREE +6;
+	}
+	else if(f7==3){
+		return THREE +7;
+	}
+	else if(f8==3){
+		return THREE +8;
+	}
+	else if(f9==3){
+		return THREE +9;
+	}
+	else if(f10==3){
+		return THREE +10;
+	}
+	else if(f11==3){
+		return FOUR +11;
+	}
+	else if(f12==3){
+		return FOUR +12;
+	}
+	else if(f13==3){
+		return FOUR +13;
+	}
+	else if(f14==3){
+		return THREE +14;
+	}
+		
+	
 	fclose(points);
 }
 
-int checkPairsComputer(){
-	FILE *points;
+int checkThreeComputer(){
+		FILE *points;
 	points = fopen("points2.txt", "r");
+	char p;
+	
+	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	
+	while((p=fgetc(points)) != EOF){
+		switch(p){
+			case'2': f2++; break;
+			case'3': f3++; break;
+			case'4': f4++; break;
+			case'5': f5++; break;
+			case'6': f6++; break;
+			case'7': f7++; break;
+			case'8': f8++; break;
+			case'9': f9++; break;
+			case'T': f10++; break;
+			case'J': f11++; break;
+			case'Q': f12++; break;
+			case'K': f13++; break;
+			case'A': f14++; break;
+		}
+	}
+	
+	if(f2==3){
+		return THREE +2;
+	}
+	else if(f3==3){
+		return THREE +3;
+	}
+	else if(f4==3){
+		return THREE +4;
+	}
+	else if(f5==3){
+		return THREE +5	;
+	}
+	else if(f6==3){
+		return THREE +6;
+	}
+	else if(f7==3){
+		return THREE +7;
+	}
+	else if(f8==3){
+		return THREE +8;
+	}
+	else if(f9==3){
+		return THREE +9;
+	}
+	else if(f10==3){
+		return THREE +10;
+	}
+	else if(f11==3){
+		return FOUR +11;
+	}
+	else if(f12==3){
+		return FOUR +12;
+	}
+	else if(f13==3){
+		return FOUR +13;
+	}
+	else if(f14==3){
+		return THREE +14;
+	}
+		
 	
 	fclose(points);
 }
