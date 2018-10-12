@@ -36,6 +36,6 @@ int checkStraightPlayer();
 int checkStraightComputer();
 int checkThreePlayer();
 int checkThreeComputer();
-
-
+int checkPairPlayer();
+int checkPairComputer();
 

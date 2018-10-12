@@ -133,6 +133,8 @@ void compare(){
 			//runs the function for filling a file with cards which computer uses
 			fillPointCalculationComputer();
 			//checkFlushPlayer();
+			//checkPairPlayer();
+			printf("%d", checkPairPlayer());
 	}else{
 		//if any of the cards match eachother the cards are dealt again
 		deal();
@@ -202,6 +204,7 @@ int checkFivePlayer(){
 			case'A': f14++; break;
 		}
 	}
+	
 	//checks if the cards have 5 of the same face value and returns an integer for comparison
 	for(i=0;i<RANK;i++){
 		if(rank[i]==5){
@@ -514,7 +517,7 @@ int checkThreePlayer(){
 	char p;
 	
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
-	
+	int i, rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
 	while((p=fgetc(points)) != EOF){
 		switch(p){
 			case'2': f2++; break;
@@ -532,8 +535,12 @@ int checkThreePlayer(){
 			case'A': f14++; break;
 		}
 	}
-	
-	if(f2==3){
+	for(i=0; i<RANK;i++){
+		if(rank[i]==3){
+			return THREE + i;
+		}
+	}
+/*	if(f2==3){
 		return THREE + 2;
 	}
 	else if(f3==3){
@@ -571,7 +578,7 @@ int checkThreePlayer(){
 	}
 	else if(f14==3){
 		return THREE +14;
-	}
+	}*/
 		
 	
 	fclose(points);
@@ -646,6 +653,55 @@ int checkThreeComputer(){
 	fclose(points);
 }
 
+int checkPairPlayer(){
+	FILE *points;
+	points = fopen("points1.txt", "r");
+	char p;
+	
+	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	int i;
+	int pair = 0;
+	while((p=fgetc(points)) != EOF){
+		switch(p){
+			case'2': f2++; break;
+			case'3': f3++; break;
+			case'4': f4++; break;
+			case'5': f5++; break;
+			case'6': f6++; break;
+			case'7': f7++; break;
+			case'8': f8++; break;
+			case'9': f9++; break;
+			case'T': f10++; break;
+			case'J': f11++; break;
+			case'Q': f12++; break;
+			case'K': f13++; break;
+			case'A': f14++; break;
+		}
+	}
+	
+	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
+	//printf("%d, %d %d, %d %d, %d %d, %d %d, %d %d, %d %d," , f2, f3, f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14);
+	
+	for(i=0; i<RANK; i++){
+		if(rank[i]==2){
+			pair++;
+			
+			if(pair==2){
+			
+				return 2*PAIR + i;
+				
+			}else if(pair==1){
+			
+					return PAIR + i;
+			}else{
+					return 0;
+			}
+			
+		}
+		
+	}
+	
+}
 void menu(){
 	
 }
