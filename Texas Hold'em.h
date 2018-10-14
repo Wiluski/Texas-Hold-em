@@ -36,4 +36,6 @@ int checkStraightPlayer();
 int checkStraightComputer();
 int checkPairAndThreePlayer();
 int checkPairAndThreeComputer();
+int checkHighCardPlayer();
+int checkHighCardComputer();
 

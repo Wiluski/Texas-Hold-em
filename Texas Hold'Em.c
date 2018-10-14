@@ -222,6 +222,8 @@ int checkFivePlayer(){
 	
 	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
 	
+	fclose(points);
+	
 	for(i=0; i<RANK; i++){
 		if(rank[i]==5){
 			five++;
@@ -235,6 +237,7 @@ int checkFivePlayer(){
 			}
 		}
 	}
+	
 }
 
 //checks if Computer has 5 cards of the same value and returns an integer for checking points
@@ -266,7 +269,7 @@ int checkFiveComputer(){
 	}
 	
 	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
-	//printf("%d, %d %d, %d %d, %d %d, %d %d, %d %d, %d %d," , f2, f3, f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14);
+	fclose(points);
 	
 	for(i=0; i<RANK; i++){
 		if(rank[i]==5){
@@ -281,6 +284,7 @@ int checkFiveComputer(){
 			}
 		}
 	}
+	
 }
 
 //checks if player has 4 cards of the same value and returns an integer for checking points
@@ -312,10 +316,11 @@ int checkFourPlayer(){
 	}
 	
 	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
-	//printf("%d, %d %d, %d %d, %d %d, %d %d, %d %d, %d %d," , f2, f3, f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14);
+	
+	fclose(points);
 	
 	for(i=0; i<RANK; i++){
-		if(rank[i]==3){
+		if(rank[i]==4){
 			four++;
 			
 			if(four==1){
@@ -327,6 +332,7 @@ int checkFourPlayer(){
 			}
 		}
 	}
+
 }
 
 //checks if computer has 4 cards of the same value and returns an integer for checking points
@@ -358,10 +364,11 @@ int checkFourComputer(){
 	}
 	
 	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
-	//printf("%d, %d %d, %d %d, %d %d, %d %d, %d %d, %d %d," , f2, f3, f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14);
+	
+	fclose(points);
 	
 	for(i=0; i<RANK; i++){
-		if(rank[i]==3){
+		if(rank[i]==4){
 			four++;
 			
 			if(four==1){
@@ -373,6 +380,7 @@ int checkFourComputer(){
 			}
 		}
 	}
+
 }
 
 //checks if Player has a Flush
@@ -469,6 +477,8 @@ int checkStraightPlayer(){
 		}
 	}
 	
+	fclose(points);
+	
 	if(f1==1 && f2==1 && f3==1 && f4==1 && f5==1){
 		return STRAIGHT + 5;
 	}else if(f2==1 && f3==1 && f4==1 && f5==1 && f6==1){
@@ -493,7 +503,7 @@ int checkStraightPlayer(){
 		return 0;
 	}
 	
-	fclose(points);
+
 }
 
 int checkStraightComputer(){
@@ -520,6 +530,8 @@ int checkStraightComputer(){
 		}
 	}
 	
+	fclose(points);
+	
 	if(f1==1 && f2==1 && f3==1 && f4==1 && f5==1){
 		return STRAIGHT + 5;
 	}else if(f2==1 && f3==1 && f4==1 && f5==1 && f6==1){
@@ -544,67 +556,93 @@ int checkStraightComputer(){
 		return 0;
 	}
 	
-	fclose(points);
+	
 }
 
 int checkPairAndThreePlayer(){
 	FILE *points;
 	points = fopen("points1.txt", "r");
 	char p;
-	
+	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0;
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
-	int i;
+	int i, j, tmp;
+	int firstPairValue, secondPairValue, thirdPairValue, highPairValue, highThreeValue;
 	int pair = 0;
 	int three = 0;
 	while((p=fgetc(points)) != EOF){
 		switch(p){
-			case'2': f2++; break;
-			case'3': f3++; break;
-			case'4': f4++; break;
-			case'5': f5++; break;
-			case'6': f6++; break;
-			case'7': f7++; break;
-			case'8': f8++; break;
-			case'9': f9++; break;
-			case'T': f10++; break;
-			case'J': f11++; break;
-			case'Q': f12++; break;
-			case'K': f13++; break;
-			case'A': f14++; break;
+			case'2': f2=2; count2++; break;
+			case'3': f3=3; count3++; break;
+			case'4': f4=4; count4++; break;
+			case'5': f5=5; count5++; break;
+			case'6': f6=6; count6++; break;
+			case'7': f7=7; count7++; break;
+			case'8': f8=8; count8++; break;
+			case'9': f9=9; count9++; break;
+			case'T': f10=10; count10++; break;
+			case'J': f11=11; count11++; break;
+			case'Q': f12=12; count12++; break;
+			case'K': f13=13; count13++; break;
+			case'A': f14=14; count14++; break;
 		}
 	}
 	
 	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
-	//printf("%d, %d %d, %d %d, %d %d, %d %d, %d %d, %d %d," , f2, f3, f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14);
+	int count[RANK] = {count2,count3,count4,count5,count6,count7,count8,count9,count10,count11,count12,count13,count14};
+	
+	fclose(points);
+	
 	for(i=0; i<RANK; i++){
-		if(rank[i]==2){
+		
+		if(count[i]==2){
+
 			pair++;
-		}else if(rank[i]==3){
-			three++;	
+			highPairValue = rank[i];
+			for(j=0; j<3; j++){
+				tmp = rank[i];
+				rank[i] = rank[j];
+				rank[j] = tmp;
+			}
+			
+		}else if(count[i]==3){
+			three++;
+			highThreeValue = rank[i];
 		}
 		
 	}
 	
+	firstPairValue = rank[0];
+	secondPairValue = rank[1];
+	thirdPairValue = rank[2];
+	
+	
 	if(pair>=2 && three==0){
-			
-		return 2*PAIR;
+		
+		if(firstPairValue > secondPairValue && firstPairValue > thirdPairValue){
+			return 2*PAIR + firstPairValue + secondPairValue;
+		}else if(secondPairValue > firstPairValue && secondPairValue > thirdPairValue){
+			return 2*PAIR + firstPairValue + secondPairValue;
+		}else if(thirdPairValue > firstPairValue && thirdPairValue > secondPairValue){
+			return 2*PAIR + thirdPairValue + secondPairValue;
+		}
+	
 				
 	}else if(pair==1 && three == 0){
 			
-		return PAIR;
+		return PAIR + highPairValue;
 		
 	}else if(pair == 0 && three == 1){
 		
-		return THREE;
+		return THREE + highThreeValue;
 			
 	}else if((pair >= 1 && three == 1) || (three == 2)){
 		
-		return FULLHOUSE;
+		return FULLHOUSE + highThreeValue;
 		
 	}else{
 		return 0;
 	}
-	
+		
 }
 
 int checkPairAndThreeComputer(){
@@ -613,59 +651,86 @@ int checkPairAndThreeComputer(){
 	points = fopen("points2.txt", "r");
 	char p;
 	
+	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0;
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
-	int i;
+	int i, j, tmp;
+	int firstPairValue, secondPairValue, thirdPairValue, highPairValue, highThreeValue;
 	int pair = 0;
 	int three = 0;
 	while((p=fgetc(points)) != EOF){
 		switch(p){
-			case'2': f2++; break;
-			case'3': f3++; break;
-			case'4': f4++; break;
-			case'5': f5++; break;
-			case'6': f6++; break;
-			case'7': f7++; break;
-			case'8': f8++; break;
-			case'9': f9++; break;
-			case'T': f10++; break;
-			case'J': f11++; break;
-			case'Q': f12++; break;
-			case'K': f13++; break;
-			case'A': f14++; break;
+			case'2': f2=2; count2++; break;
+			case'3': f3=3; count3++; break;
+			case'4': f4=4; count4++; break;
+			case'5': f5=5; count5++; break;
+			case'6': f6=6; count6++; break;
+			case'7': f7=7; count7++; break;
+			case'8': f8=8; count8++; break;
+			case'9': f9=9; count9++; break;
+			case'T': f10=10; count10++; break;
+			case'J': f11=11; count11++; break;
+			case'Q': f12=12; count12++; break;
+			case'K': f13=13; count13++; break;
+			case'A': f14=14; count14++; break;
 		}
 	}
 	
 	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
+	int count[RANK] = {count2,count3,count4,count5,count6,count7,count8,count9,count10,count11,count12,count13,count14};
+	
+	fclose(points);
 	
 	for(i=0; i<RANK; i++){
-		if(rank[i]==2){
+		
+		if(count[i]==2){
+
 			pair++;
-		}else if(rank[i]==3){
-			three++;	
+			highPairValue = rank[i];
+			for(j=0; j<3; j++){
+				tmp = rank[i];
+				rank[i] = rank[j];
+				rank[j] = tmp;
+			}
+			
+		}else if(count[i]==3){
+			three++;
+			highThreeValue = rank[i];
 		}
 		
 	}
 	
+	firstPairValue = rank[0];
+	secondPairValue = rank[1];
+	thirdPairValue = rank[2];
+	
+	
 	if(pair>=2 && three==0){
 		
-		return 2*PAIR;
-		
+		if(firstPairValue > secondPairValue && firstPairValue > thirdPairValue){
+			return 2*PAIR + firstPairValue + secondPairValue;
+		}else if(secondPairValue > firstPairValue && secondPairValue > thirdPairValue){
+			return 2*PAIR + firstPairValue + secondPairValue;
+		}else if(thirdPairValue > firstPairValue && thirdPairValue > secondPairValue){
+			return 2*PAIR + thirdPairValue + secondPairValue;
+		}
+	
+				
 	}else if(pair==1 && three == 0){
 			
-		return PAIR;
+		return PAIR + highPairValue;
 		
 	}else if(pair == 0 && three == 1){
 		
-		return THREE;
+		return THREE + highThreeValue;
 			
 	}else if((pair >= 1 && three == 1) || (three == 2)){
 		
-		return FULLHOUSE;
+		return FULLHOUSE + highThreeValue;
 		
 	}else{
 		return 0;
 	}
-		
+	
 }
 
 void menu(){
