@@ -10,12 +10,12 @@
 #define RANK 13
 #define CARDS 19
 #define PAIR 100
-#define PAIR2 200
 #define THREE 300
 #define STRAIGHT 400
 #define FLUSH 500
-#define FOUR 600
-#define FIVE 700
+#define FULLHOUSE 600
+#define FOUR 700
+#define FIVE 800
 #define SPADE 10
 #define CLUBS 20
 #define DIAMONDS 30
@@ -34,8 +34,6 @@ int checkFlushPlayer();
 int checkFlushComputer();
 int checkStraightPlayer();
 int checkStraightComputer();
-int checkThreePlayer();
-int checkThreeComputer();
-int checkPairPlayer();
-int checkPairComputer();
+int checkPairAndThreePlayer();
+int checkPairAndThreeComputer();
 
