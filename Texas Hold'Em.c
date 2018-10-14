@@ -459,50 +459,51 @@ int checkStraightPlayer(){
 	char p;
 	
 	int f1=0, f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	int i,j;
+	
 	while((p=fgetc(points)) != EOF){
 		switch(p){
-			case'2': f2++; break;
-			case'3': f3++; break;
-			case'4': f4++; break;
-			case'5': f5++; break;
-			case'6': f6++; break;
-			case'7': f7++; break;
-			case'8': f8++; break;
-			case'9': f9++; break;
-			case'T': f10++; break;
-			case'J': f11++; break;
-			case'Q': f12++; break;
-			case'K': f13++; break;
-			case'A': f1++; f14++; break;
+			case'2': f2=2; break;
+			case'3': f3=3; break;
+			case'4': f4=4; break;
+			case'5': f5=5; break;
+			case'6': f6=6; break;
+			case'7': f7=7; break;
+			case'8': f8=8; break;
+			case'9': f9=9; break;
+			case'T': f10=10; break;
+			case'J': f11=11; break;
+			case'Q': f12=12; break;
+			case'K': f13=13; break;
+			case'A': f1=1; f14=14; break;
 		}
 	}
+	int rank[RANK+1] = {f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
 	
 	fclose(points);
-	
-	if(f1==1 && f2==1 && f3==1 && f4==1 && f5==1){
-		return STRAIGHT + 5;
-	}else if(f2==1 && f3==1 && f4==1 && f5==1 && f6==1){
-		return STRAIGHT + 6;
-	}else if(f3==1 && f4==1 && f5==1 && f6==1 && f7==1){
-		return STRAIGHT + 7;
-	}else if(f4==1 && f5==1 && f6==1 && f7==1 && f8==1){
-		return STRAIGHT + 8;
-	}else if(f5==1 && f6==1 && f7==1 && f8==1 && f9==1){
-		return STRAIGHT + 9;
-	}else if(f6==1 && f7==1 && f8==1 && f9==1 && f10==1){
-		return STRAIGHT + 10;
-	}else if(f7==1 && f8==1 && f9==1 && f10==1 && f11==1){
-		return STRAIGHT + 11;
-	}else if(f8==1 && f9==1 && f10==1 && f11==1 && f12==1){
-		return STRAIGHT + 12;
-	}else if(f9==1 && f10==1 && f11==1 && f12==1 && f13==1){
-		return STRAIGHT + 13;
-	}else if(f10==1 && f11==1 && f12==1 && f13==1 && f14==1){
-		return STRAIGHT + 14;
+
+	for(i=0; i<RANK+1; i++){
+		for(j=0; j<RANK+1; j++){
+			if(rank[i]>rank[j]){
+				int tmp=rank[i];
+				rank[i]=rank[j];
+				rank[j]=tmp;
+			}
+		}
+	}
+
+	if		(rank[0]-1 == rank[1] && rank[1]-1 == rank[2] && rank[2]-1 == rank[3] && rank[3]-1 == rank[4]){
+		return STRAIGHT + rank[0];
+	}else if(rank[1]-1 == rank[2] && rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4]-1 == rank[5]){
+		return STRAIGHT + rank[1];
+	}else if(rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5]-1 == rank[6]){
+		return STRAIGHT + rank[2];
+	}else if(rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5]-1 == rank[6] && rank[6]-1 == rank[7]){
+		return STRAIGHT + rank[3];
 	}else{
 		return 0;
 	}
-	
+
 
 }
 
@@ -512,51 +513,51 @@ int checkStraightComputer(){
 	char p;
 	
 	int f1=0, f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	int i,j;
+	
 	while((p=fgetc(points)) != EOF){
 		switch(p){
-			case'2': f2++; break;
-			case'3': f3++; break;
-			case'4': f4++; break;
-			case'5': f5++; break;
-			case'6': f6++; break;
-			case'7': f7++; break;
-			case'8': f8++; break;
-			case'9': f9++; break;
-			case'T': f10++; break;
-			case'J': f11++; break;
-			case'Q': f12++; break;
-			case'K': f13++; break;
-			case'A': f1++; f14++; break;
+			case'2': f2=2; break;
+			case'3': f3=3; break;
+			case'4': f4=4; break;
+			case'5': f5=5; break;
+			case'6': f6=6; break;
+			case'7': f7=7; break;
+			case'8': f8=8; break;
+			case'9': f9=9; break;
+			case'T': f10=10; break;
+			case'J': f11=11; break;
+			case'Q': f12=12; break;
+			case'K': f13=13; break;
+			case'A': f1=1; f14=14; break;
 		}
 	}
+	int rank[RANK+1] = {f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
 	
 	fclose(points);
-	
-	if(f1==1 && f2==1 && f3==1 && f4==1 && f5==1){
-		return STRAIGHT + 5;
-	}else if(f2==1 && f3==1 && f4==1 && f5==1 && f6==1){
-		return STRAIGHT + 6;
-	}else if(f3==1 && f4==1 && f5==1 && f6==1 && f7==1){
-		return STRAIGHT + 7;
-	}else if(f4==1 && f5==1 && f6==1 && f7==1 && f8==1){
-		return STRAIGHT + 8;
-	}else if(f5==1 && f6==1 && f7==1 && f8==1 && f9==1){
-		return STRAIGHT + 9;
-	}else if(f6==1 && f7==1 && f8==1 && f9==1 && f10==1){
-		return STRAIGHT + 10;
-	}else if(f7==1 && f8==1 && f9==1 && f10==1 && f11==1){
-		return STRAIGHT + 11;
-	}else if(f8==1 && f9==1 && f10==1 && f11==1 && f12==1){
-		return STRAIGHT + 12;
-	}else if(f9==1 && f10==1 && f11==1 && f12==1 && f13==1){
-		return STRAIGHT + 13;
-	}else if(f10==1 && f11==1 && f12==1 && f13==1 && f14==1){
-		return STRAIGHT + 14;
+
+	for(i=0; i<RANK+1; i++){
+		for(j=0; j<RANK+1; j++){
+			if(rank[i]>rank[j]){
+				int tmp=rank[i];
+				rank[i]=rank[j];
+				rank[j]=tmp;
+			}
+		}
+	}
+
+	if		(rank[0]-1 == rank[1] && rank[1]-1 == rank[2] && rank[2]-1 == rank[3] && rank[3]-1 == rank[4]){
+		return STRAIGHT + rank[0];
+	}else if(rank[1]-1 == rank[2] && rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4]-1 == rank[5]){
+		return STRAIGHT + rank[1];
+	}else if(rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5]-1 == rank[6]){
+		return STRAIGHT + rank[2];
+	}else if(rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5]-1 == rank[6] && rank[6]-1 == rank[7]){
+		return STRAIGHT + rank[3];
 	}else{
 		return 0;
 	}
-	
-	
+
 }
 
 int checkPairAndThreePlayer(){
@@ -616,9 +617,9 @@ int checkPairAndThreePlayer(){
 	thirdPairValue = rank[2];
 	
 	
-	if(pair>=2 && three==0){
+	if		(pair>=2 && three==0){
 		
-		if(firstPairValue > secondPairValue && firstPairValue > thirdPairValue){
+		if		(firstPairValue > secondPairValue && firstPairValue > thirdPairValue){
 			return 2*PAIR + firstPairValue + secondPairValue;
 		}else if(secondPairValue > firstPairValue && secondPairValue > thirdPairValue){
 			return 2*PAIR + firstPairValue + secondPairValue;
@@ -704,9 +705,9 @@ int checkPairAndThreeComputer(){
 	thirdPairValue = rank[2];
 	
 	
-	if(pair>=2 && three==0){
+	if		(pair>=2 && three==0){
 		
-		if(firstPairValue > secondPairValue && firstPairValue > thirdPairValue){
+		if		(firstPairValue > secondPairValue && firstPairValue > thirdPairValue){
 			return 2*PAIR + firstPairValue + secondPairValue;
 		}else if(secondPairValue > firstPairValue && secondPairValue > thirdPairValue){
 			return 2*PAIR + firstPairValue + secondPairValue;
