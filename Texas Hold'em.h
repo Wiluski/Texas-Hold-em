@@ -26,8 +26,6 @@ void menu();
 void compare();
 void fillPointCalculationPlayer();
 void fillPointCalculationComputer();
-int checkFivePlayer();
-int checkFiveComputer();
 int checkFourPlayer();
 int checkFourComputer();
 int checkFlushPlayer();

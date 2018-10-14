@@ -12,8 +12,18 @@ int main(int argc, char** argv) {
 	
 	deal();
 	
-	pointsPlayer = checkPairAndThreePlayer() + checkStraightPlayer() + checkFlushPlayer() + checkFourPlayer() + checkFivePlayer();
-	pointsComputer = checkPairAndThreeComputer() + checkStraightComputer() + checkFlushComputer() + checkFourComputer() + checkFiveComputer();
+	if(checkStraightPlayer()==0){
+		pointsPlayer = checkPairAndThreePlayer() + checkStraightPlayer() + checkFlushPlayer() + checkFourPlayer() + checkHighCardPlayer();
+	}else{
+		pointsPlayer = checkPairAndThreePlayer() + checkStraightPlayer() + checkFlushPlayer() + checkFourPlayer();
+	}
+	
+	if(checkStraightComputer()==0){
+		pointsComputer = checkPairAndThreeComputer() + checkStraightComputer() + checkFlushComputer() + checkFourComputer() + checkHighCardComputer();
+	}else{
+		pointsComputer == checkPairAndThreeComputer() + checkStraightComputer() + checkFlushComputer() + checkFourComputer();
+	}
+	
 	
 	if(pointsPlayer > pointsComputer){
 		printf("The player wins! %d, %d", pointsPlayer, pointsComputer);
@@ -189,102 +199,6 @@ void fillPointCalculationComputer(){
 	fclose(hand);
 	fclose(table);
 	fclose(points);
-}
-
-//checks if player has 5 cards of the same value and returns an integer for checking points
-int checkFivePlayer(){
-	//opens the file where the cards are stored
-	
-	FILE *points;
-	points = fopen("points1.txt", "r");
-	char p;
-	
-	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
-	int i;
-	int five = 0;
-	while((p=fgetc(points)) != EOF){
-		switch(p){
-			case'2': f2++; break;
-			case'3': f3++; break;
-			case'4': f4++; break;
-			case'5': f5++; break;
-			case'6': f6++; break;
-			case'7': f7++; break;
-			case'8': f8++; break;
-			case'9': f9++; break;
-			case'T': f10++; break;
-			case'J': f11++; break;
-			case'Q': f12++; break;
-			case'K': f13++; break;
-			case'A': f14++; break;
-		}
-	}
-	
-	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
-	
-	fclose(points);
-	
-	for(i=0; i<RANK; i++){
-		if(rank[i]==5){
-			five++;
-			
-			if(five==1){
-			
-				return FIVE + i;
-				
-			}else{
-					return 0;
-			}
-		}
-	}
-	
-}
-
-//checks if Computer has 5 cards of the same value and returns an integer for checking points
-int checkFiveComputer(){
-	
-	FILE *points;
-	points = fopen("points2.txt", "r");
-	char p;
-	
-	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
-	int i;
-	int five = 0;
-	while((p=fgetc(points)) != EOF){
-		switch(p){
-			case'2': f2++; break;
-			case'3': f3++; break;
-			case'4': f4++; break;
-			case'5': f5++; break;
-			case'6': f6++; break;
-			case'7': f7++; break;
-			case'8': f8++; break;
-			case'9': f9++; break;
-			case'T': f10++; break;
-			case'J': f11++; break;
-			case'Q': f12++; break;
-			case'K': f13++; break;
-			case'A': f14++; break;
-		}
-	}
-	
-	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
-	fclose(points);
-	
-	for(i=0; i<RANK; i++){
-		if(rank[i]==5){
-			five++;
-			
-			if(five==1){
-			
-				return FIVE + i;
-				
-			}else{
-					return 0;
-			}
-		}
-	}
-	
 }
 
 //checks if player has 4 cards of the same value and returns an integer for checking points
@@ -566,12 +480,17 @@ int checkPairAndThreePlayer(){
 	char p;
 	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0;
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	int s=0, c=0, d=0, h=0;
 	int i, j, tmp;
 	int firstPairValue, secondPairValue, thirdPairValue, highPairValue, highThreeValue;
 	int pair = 0;
 	int three = 0;
 	while((p=fgetc(points)) != EOF){
 		switch(p){
+			case 'S': s ++; break;
+			case 'C': c ++; break;
+			case 'D': d ++; break;
+			case 'H': h ++; break;
 			case'2': f2=2; count2++; break;
 			case'3': f3=3; count3++; break;
 			case'4': f4=4; count4++; break;
@@ -628,11 +547,11 @@ int checkPairAndThreePlayer(){
 		}
 	
 				
-	}else if(pair==1 && three == 0){
+	}else if(pair==1 && three == 0 && s < 6 && c < 6 && d < 6 && h < 6){
 			
 		return PAIR + highPairValue;
 		
-	}else if(pair == 0 && three == 1){
+	}else if(pair == 0 && three == 1 && s < 6 && c < 6 && d < 6 && h < 6){
 		
 		return THREE + highThreeValue;
 			
@@ -654,12 +573,17 @@ int checkPairAndThreeComputer(){
 	
 	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0;
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	int s=0, c=0, d=0, h=0;
 	int i, j, tmp;
 	int firstPairValue, secondPairValue, thirdPairValue, highPairValue, highThreeValue;
 	int pair = 0;
 	int three = 0;
 	while((p=fgetc(points)) != EOF){
-		switch(p){
+		switch(p){			
+			case 'S': s ++; break;
+			case 'C': c ++; break;
+			case 'D': d ++; break;
+			case 'H': h ++; break;
 			case'2': f2=2; count2++; break;
 			case'3': f3=3; count3++; break;
 			case'4': f4=4; count4++; break;
@@ -716,11 +640,11 @@ int checkPairAndThreeComputer(){
 		}
 	
 				
-	}else if(pair==1 && three == 0){
+	}else if(pair==1 && three == 0 && s < 6 && c < 6 && d < 6 && h < 6){
 			
 		return PAIR + highPairValue;
 		
-	}else if(pair == 0 && three == 1){
+	}else if(pair == 0 && three == 1 && s < 6 && c < 6 && d < 6 && h < 6){
 		
 		return THREE + highThreeValue;
 			
@@ -734,6 +658,211 @@ int checkPairAndThreeComputer(){
 	
 }
 
-void menu(){
+int checkHighCardPlayer(){
+	FILE *points;
+	points = fopen("points1.txt", "r");
+	char p;
+	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0;
+	int s=0, c=0, d=0, h=0;
+	int i, j;
+	int pair=0, three=0, four=0;
+	int first, second, third, fourth, fifth;
+	while((p=fgetc(points)) != EOF){
+		switch(p){
+			case'S': s++; break;
+			case'C': c++; break;
+			case'D': d++; break;
+			case'H': h++; break;
+			case'2': f2=2; count2++; break;
+			case'3': f3=3; count3++; break;
+			case'4': f4=4; count4++; break;
+			case'5': f5=5; count5++; break;
+			case'6': f6=6; count6++; break;
+			case'7': f7=7; count7++; break;
+			case'8': f8=8; count8++; break;
+			case'9': f9=9; count9++; break;
+			case'T': f10=10; count10++; break;
+			case'J': f11=11; count11++; break;
+			case'Q': f12=12; count12++; break;
+			case'K': f13=13; count13++; break;
+			case'A': f14=14; count14++; break;
+		}
+	}
+	int count[RANK] = {count2,count3,count4,count5,count6,count7,count8,count9,count10,count11,count12,count13,count14};
+	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
+	
+	fclose(points);
+	
+	for(i=0; i<RANK; i++){
+		for(j=0; j<RANK; j++){
+			if(rank[j]<rank[i]){
+				int tmp=rank[i];
+				rank[i]=rank[j];
+				rank[j]=tmp;
+			}
+		}
+	}
+	
+	first = rank[0];
+	second = rank[1];
+	third = rank[2];
+	fourth = rank[3];
+	fifth = rank[4];
+	
+	for(i=0; i<RANK; i++){
+		if(count[i]==4){
+			four++;
+		}else if(count[i]==3){
+			three++;
+		}else if(count[i]==2){
+			pair++;
+		}
+	}
+	
+	if(s == 5 || c == 5 || d == 5 || h == 5){
+			return 0;
+	}else if(four==1){
+		for(i=0; i<RANK; i++){
+			if(count[i]==4 && i == first-2){
+				return second;
+			}else{
+				return first;
+			}
+		}
+	}else if(three >= 1 && four == 0 && pair == 0){
+		for(i=0; i<RANK; i++){
+			if(count[i]==3 && i == first-2){
+				return second+third;
+			}else if(count[i]==3 && i == second - 2){
+				return first+third;
+			}else{
+				return first+second;
+			}
+		}
+	}else if(pair >= 1 && four == 0 && three == 0){
+		for(i=0; i<RANK; i++){
+			if(count[i]==2 && i == first-2){
+				return second+third+fourth+fifth;
+			}else if(count[i]==2 && i == second-2){
+				return first+third+fourth+fifth;
+			}else if(count[i]==2 && i == third-2){
+				return first+second+fourth+fifth;
+			}else if(count[i]==2 && i == fourth-2){
+				return first+second+third+fifth;
+			}else{
+				return first+second+third+fourth;
+			}
+		}
+	}else if(pair == 0 && three == 0 && four == 0){
+		return first+second+third+fourth+fifth;
+	}else{
+		return 0;
+	}
 	
 }
+
+int checkHighCardComputer(){
+	FILE *points;
+	points = fopen("points2.txt", "r");
+	char p;
+	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0;
+	int s=0, c=0, d=0, h=0;
+	int i, j;
+	int pair=0, three=0, four=0;
+	int first, second, third, fourth, fifth;
+	while((p=fgetc(points)) != EOF){
+		switch(p){
+			case'S': s++; break;
+			case'C': c++; break;
+			case'D': d++; break;
+			case'H': h++; break;
+			case'2': f2=2; count2++; break;
+			case'3': f3=3; count3++; break;
+			case'4': f4=4; count4++; break;
+			case'5': f5=5; count5++; break;
+			case'6': f6=6; count6++; break;
+			case'7': f7=7; count7++; break;
+			case'8': f8=8; count8++; break;
+			case'9': f9=9; count9++; break;
+			case'T': f10=10; count10++; break;
+			case'J': f11=11; count11++; break;
+			case'Q': f12=12; count12++; break;
+			case'K': f13=13; count13++; break;
+			case'A': f14=14; count14++; break;
+		}
+	}
+	int count[RANK] = {count2,count3,count4,count5,count6,count7,count8,count9,count10,count11,count12,count13,count14};
+	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
+	
+	fclose(points);
+	
+	for(i=0; i<RANK; i++){
+		for(j=0; j<RANK; j++){
+			if(rank[j]<rank[i]){
+				int tmp=rank[i];
+				rank[i]=rank[j];
+				rank[j]=tmp;
+			}
+		}
+	}
+	
+	first = rank[0];
+	second = rank[1];
+	third = rank[2];
+	fourth = rank[3];
+	fifth = rank[4];
+	
+	for(i=0; i<RANK; i++){
+		if(count[i]==4){
+			four++;
+		}else if(count[i]==3){
+			three++;
+		}else if(count[i]==2){
+			pair++;
+		}
+	}
+	
+	if(s == 5 || c == 5 || d == 5 || h == 5){
+			return 0;
+	}else if(four==1){
+		for(i=0; i<RANK; i++){
+			if(count[i]==4 && i == first-2){
+				return second;
+			}else{
+				return first;
+			}
+		}
+	}else if(three >= 1 && four == 0 && pair == 0){
+		for(i=0; i<RANK; i++){
+			if(count[i]==3 && i == first-2){
+				return second+third;
+			}else if(count[i]==3 && i == second - 2){
+				return first+third;
+			}else{
+				return first+second;
+			}
+		}
+	}else if(pair >= 1 && four == 0 && three == 0){
+		for(i=0; i<RANK; i++){
+			if(count[i]==2 && i == first-2){
+				return second+third+fourth+fifth;
+			}else if(count[i]==2 && i == second-2){
+				return first+third+fourth+fifth;
+			}else if(count[i]==2 && i == third-2){
+				return first+second+fourth+fifth;
+			}else if(count[i]==2 && i == fourth-2){
+				return first+second+third+fifth;
+			}else{
+				return first+second+third+fourth;
+			}
+		}
+	}else if(pair == 0 && three == 0 && four == 0){
+		return first+second+third+fourth+fifth;
+	}else{
+		return 0;
+	}
+	
+}
+
