@@ -3,12 +3,10 @@
 #define HAND 2
 #define FACE 13
 #define SUIT 4
-#define DECK 52
 #define TABLE 5
 #define CARD 2
 #define TABLE2 14
 #define RANK 13
-#define CARDS 19
 #define PAIR 100
 #define THREE 300
 #define STRAIGHT 400

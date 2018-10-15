@@ -1,7 +1,6 @@
 // all the defined values and function prototypes are in the header file
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include <time.h>
 #include "Texas Hold'em.h"
 
@@ -31,8 +30,10 @@ int main(int argc, char** argv) {
 	}
 	
 	//checks the points and determines the winner
+	//prints out only the points aquired throughout the functions and the cards can be found in the text files
+	//are coded to be stored to same file where the program is ran
 	if(pointsPlayer > pointsComputer){
-		printf("The player wins! %d, %d", pointsPlayer, pointsComputer);
+		printf("The player wins! %d, %d", pointsPlayer, pointsComputer); 
 	}else if(pointsComputer > pointsPlayer){
 		printf("The computer wins! %d, %d", pointsComputer, pointsPlayer);
 	}else{
@@ -768,7 +769,7 @@ int checkHighCardPlayer(){
 		}
 	}
 	
-	if(s == 5 || c == 5 || d == 5 || h == 5){	//if theres a flush are 5 card places are used
+	if(s == 5 || c == 5 || d == 5 || h == 5){	//if theres a flush all 5 card places are used
 			return 0;
 	}else if(four==1){
 		for(i=0; i<RANK; i++){
