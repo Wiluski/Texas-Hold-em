@@ -711,8 +711,11 @@ int checkPairAndThreePlayer(){
 		}
 	}
 	
-	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};	//save the face values to array
-	int count[RANK] = {count2,count3,count4,count5,count6,count7,count8,count9,count10,count11,count12,count13,count14}; // save the amount to array
+	//save the face values to array
+	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};	
+	
+	// save the amount to array
+	int count[RANK] = {count2,count3,count4,count5,count6,count7,count8,count9,count10,count11,count12,count13,count14}; 
 	
 	fclose(points);
 	
@@ -722,9 +725,11 @@ int checkPairAndThreePlayer(){
 
 			pair++;		//saves the amount of pairs
 			for(j=0; j<3; j++){		// loops the values of pairs in descending order (max 3)
-				tmp = rank[i];
-				rank[i] = rank[j];
-				rank[j] = tmp;
+				if(rank[i]>rank[j]){ //compares the values
+					tmp = rank[i];	//stores temporary
+					rank[i] = rank[j];	//switches
+					rank[j] = tmp;		//stores in array
+				}
 			}
 			
 		}else if(count[i]==3){	
@@ -736,18 +741,16 @@ int checkPairAndThreePlayer(){
 	
 	firstPairValue = rank[0];	//saves the highest value of pair to lowest
 	secondPairValue = rank[1];
-	thirdPairValue = rank[2];
 	
-	
-	if		(pair>=2 && three==0){	// if there are 2 or 3 pairs
+	if	(pair>=2 && three==0){	// if there are 2 or 3 pairs
 		
 		return 2*PAIR + firstPairValue + secondPairValue;	//2 times the PAIR values and the face values regarding pairs
 	
-	}else if(pair==1 && three == 0 && s < 6 && c < 6 && d < 6 && h < 6){	// here is a possibility for a flush to overlap (1 pair)
+	}else if(pair==1 && three == 0 && s < 5 && c < 5 && d < 5 && h < 5){	// here is a possibility for a flush to overlap (1 pair)
 			
 		return PAIR + firstPairValue;
 		
-	}else if(pair == 0 && three == 1 && s < 6 && c < 6 && d < 6 && h < 6){	// here is a possibility for a flush to overlap (1 three)
+	}else if(pair == 0 && three == 1 && s < 5 && c < 5 && d < 5 && h < 5){	// here is a possibility for a flush to overlap (1 three)
 		
 		return THREE + highThreeValue;
 			
@@ -812,9 +815,11 @@ int checkPairAndThreeComputer(){
 
 			pair++;
 			for(j=0; j<3; j++){
-				tmp = rank[i];
-				rank[i] = rank[j];
-				rank[j] = tmp;
+				if(rank[i]>rank[j]){
+					tmp = rank[i];
+					rank[i] = rank[j];
+					rank[j] = tmp;
+				}
 			}
 			
 		}else if(count[i]==3){
@@ -826,25 +831,16 @@ int checkPairAndThreeComputer(){
 	
 	firstPairValue = rank[0];
 	secondPairValue = rank[1];
-	thirdPairValue = rank[2];
 	
-	
-	if		(pair>=2 && three==0){
+	if	(pair>=2 && three==0){
 		
-		if		(firstPairValue > secondPairValue && firstPairValue > thirdPairValue){
-			return 2*PAIR + firstPairValue + secondPairValue;
-		}else if(secondPairValue > firstPairValue && secondPairValue > thirdPairValue){
-			return 2*PAIR + firstPairValue + secondPairValue;
-		}else if(thirdPairValue > firstPairValue && thirdPairValue > secondPairValue){
-			return 2*PAIR + thirdPairValue + secondPairValue;
-		}
-	
-				
-	}else if(pair==1 && three == 0 && s < 6 && c < 6 && d < 6 && h < 6){
+		return 2 * PAIR + firstPairValue + secondPairValue;
+		
+	}else if(pair==1 && three == 0 && s < 5 && c < 5 && d < 5 && h < 5){
 			
 		return PAIR + firstPairValue;
 		
-	}else if(pair == 0 && three == 1 && s < 6 && c < 6 && d < 6 && h < 6){
+	}else if(pair == 0 && three == 1 && s < 5 && c < 5 && d < 5 && h < 5){
 		
 		return THREE + highThreeValue;
 			
