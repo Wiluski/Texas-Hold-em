@@ -7,24 +7,30 @@
 
 
 int main(int argc, char** argv) {
+	//used to save the points
 	int pointsPlayer = 0;
 	int pointsComputer = 0;
 	
+	//runs the function to deal the cards
 	deal();
 	
+	//if the function straight returns a value there is no need to check the high card function
 	if(checkStraightPlayer()==0){
+		//sums the values of the functions together
 		pointsPlayer = checkPairAndThreePlayer() + checkStraightPlayer() + checkFlushPlayer() + checkFourPlayer() + checkHighCardPlayer();
 	}else{
 		pointsPlayer = checkPairAndThreePlayer() + checkStraightPlayer() + checkFlushPlayer() + checkFourPlayer();
 	}
 	
+	//if the function straight returns a value there is no need to check the high card function
 	if(checkStraightComputer()==0){
+		//sums the values of the functions together
 		pointsComputer = checkPairAndThreeComputer() + checkStraightComputer() + checkFlushComputer() + checkFourComputer() + checkHighCardComputer();
 	}else{
 		pointsComputer == checkPairAndThreeComputer() + checkStraightComputer() + checkFlushComputer() + checkFourComputer();
 	}
 	
-	
+	//checks the points and determines the winner
 	if(pointsPlayer > pointsComputer){
 		printf("The player wins! %d, %d", pointsPlayer, pointsComputer);
 	}else if(pointsComputer > pointsPlayer){
@@ -38,6 +44,7 @@ int main(int argc, char** argv) {
 
 //function takes random face character and suit and divides them to 3 files which are hands that will be delt and table cards which will be delt
 void deal(){
+	//hand1 used for saving players cards in hand, hand2 used saving for computers cards in hand, table used for saving cards in table
 	FILE *hand1, *hand2, *table;
 	hand1 = fopen("hand1.txt", "w");
 	hand2 = fopen("hand2.txt", "w");
@@ -64,21 +71,21 @@ void deal(){
 	time_t t;
 	srand((unsigned) time(&t));
 			
-		//first for loop for first hand
+		//first for loop for first hand, randomises 2 face values and 2 suit values to a file for player
 		for(h1=1;h1<=HAND; h1++){
 			pullCard = rand() % FACE;
 			pullSuit = rand() % SUIT;
 			fprintf(hand1,"%c%c ", face[pullCard], suit[pullSuit]);
 		}
 		
-		//second for loop for second hand
+		//second for loop for second hand, randomises 2 face values and 2 suit values to a file for computer
 		for(h2=1;h2<=HAND; h2++){
 			pullCard = rand() % FACE;
 			pullSuit = rand() % SUIT;
 			fprintf(hand2,"%c%c ", face[pullCard], suit[pullSuit]);
 		}
 		
-		//third for loop for the cards in table
+		//third for loop for the cards in table, randomises 5 face values and 5 suit values to a file that are for both player and computer
 		for(tb=1;tb<=TABLE; tb++){
 			pullCard = rand() % FACE;
 			pullSuit = rand() % SUIT;
@@ -107,11 +114,12 @@ void compare(){
 	// hand and thand(table hand) are for scanning files in for loops and then the values are copied to every card one at a time
 	char hand[TABLE],thand[TABLE2], card1[CARD], card2[CARD], card3[CARD], card4[CARD], card5[CARD], card6[CARD], card7[CARD], card8[CARD], card9[CARD];
 
+	//for loops used for reading the files where cards are dealt
 	for(i=0; i<TABLE; i++){
 		fscanf(hand1, "%c", &hand[i]);
 	}
 
-	// copying values of the hand array to determine first 2 cards
+	// copying values of the hand array to determine first 2 cards (players)
 	strncpy(card1, hand, CARD);
 	strncpy(card2, hand+3, CARD);
 	card1[CARD] = '\0';
@@ -120,7 +128,8 @@ void compare(){
 	for(i=0; i<TABLE; i++){
 		fscanf(hand2, "%c", &hand[i]);
 	}	
-	// copying values of the hand array to determine next 2 cards
+	
+	// copying values of the hand array to determine next 2 cards (computers)
 	strncpy(card3, hand, CARD);
 	strncpy(card4, hand+3, CARD);
 	card3[CARD] = '\0';
@@ -130,7 +139,7 @@ void compare(){
 		fscanf(table, "%c", &thand[i]);
 	}
 	
-	// copying values of the table array to determine last 5 cards
+	// copying values of the table array to determine last 5 cards (table)
 	strncpy(card5, thand, CARD);
 	strncpy(card6, thand+3, CARD);	
 	strncpy(card7, thand+6, CARD);
@@ -145,7 +154,8 @@ void compare(){
 	fclose(hand1);
 	fclose(hand2);
 	fclose(table);
-	//compares the cards, if any of them have the same value as other, the cards are delt again
+	
+	//compares the cards, if any of them have the same values as the other, the cards are delt again
 	if((strcmp(card1,card2) != 0) && (strcmp(card1,card3) != 0) && (strcmp(card1,card4) != 0) && (strcmp(card1,card5) != 0) && (strcmp(card1,card6) != 0) && 
 		(strcmp(card1,card7) != 0) && (strcmp(card1,card8) != 0) && (strcmp(card1,card9) != 0) && (strcmp(card2,card3) != 0) && (strcmp(card2,card4) != 0) && 
 		(strcmp(card2,card5) != 0) && (strcmp(card2,card6) != 0) && (strcmp(card2,card7) != 0) && (strcmp(card2,card8) != 0) && (strcmp(card2,card9) != 0) && 
@@ -166,14 +176,20 @@ void compare(){
 //Fills players hand and the cards in the table to a new file for checking points
 void fillPointCalculationPlayer(){
 	FILE *hand, *table, *points;
+	
+	//used for saving players cards in a point file
 	char tmp;
+	
+	//open files where cards are saved
 	hand = fopen("hand1.txt", "r");
 	table = fopen("table.txt", "r");
 	points = fopen("points1.txt", "w");
 	
+	//saving cards in hand one character at a time
 	while((tmp = fgetc(hand)) != EOF)
 		fputc(tmp, points);
-		
+	
+	//saving cards in table one character at a time
 	while((tmp = fgetc(table)) != EOF)
 		fputc(tmp,points);
 	
@@ -182,7 +198,7 @@ void fillPointCalculationPlayer(){
 	fclose(points);
 }
 
-//Fills computers hand and the cards in the table to a new file for checking points
+//Fills computers hand and the cards in the table to a new file for checking points (same as for the player)
 void fillPointCalculationComputer(){
 	FILE *hand, *table, *points;
 	char tmp;
@@ -201,16 +217,23 @@ void fillPointCalculationComputer(){
 	fclose(points);
 }
 
-//checks if player has 4 cards of the same value and returns an integer for checking points
+//checks if player has 4 cards of the same value and returns a value for checking points
 int checkFourPlayer(){
 		
 	FILE *points;
 	points = fopen("points1.txt", "r");
 	char p;
 	
+	//integers for saving the amount of same face value cards from file (set to 0 so values won't vary)
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	
+	//integer used to run for loop to check the face value integers
 	int i;
+	
+	//used save if there are 4 of the face value cards
 	int four = 0;
+	
+	//reads the point file and saves the amount of face values
 	while((p=fgetc(points)) != EOF){
 		switch(p){
 			case'2': f2++; break;
@@ -229,27 +252,30 @@ int checkFourPlayer(){
 		}
 	}
 	
+	//saves the values in an array
 	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
 	
 	fclose(points);
 	
+	//runs through the array and checks if there are 4 of any kind
 	for(i=0; i<RANK; i++){
 		if(rank[i]==4){
 			four++;
 			
 			if(four==1){
-			
-				return FOUR + i;
+				//returns defined value and the place in array
+				return FOUR + i + 2;
 				
 			}else{
-					return 0;
+				//if there isn't 4 of the same kind, value will be 0
+				return 0;
 			}
 		}
 	}
 
 }
 
-//checks if computer has 4 cards of the same value and returns an integer for checking points
+//checks if computer has 4 cards of the same value and returns an integer for checking points(same as for player)
 int checkFourComputer(){
 	
 	FILE *points;
@@ -287,7 +313,7 @@ int checkFourComputer(){
 			
 			if(four==1){
 			
-				return FOUR + i;
+				return FOUR + i + 2;
 				
 			}else{
 					return 0;
@@ -303,8 +329,9 @@ int checkFlushPlayer(){
 	points = fopen("points1.txt", "r");
 
 	char p;
+	//used to save amount of spades, clubs, diamonds and hears
 	int s=0, c=0, d=0, h=0;
-
+	
 	while((p = fgetc(points)) != EOF){
 		switch(p){
 			case 'S': s ++; break;
@@ -317,17 +344,20 @@ int checkFlushPlayer(){
 	
 	fclose(points);
 	
-	if(s==5){
+	//checks if there are 5 or more of the same suit and returns a value according to that Heart highest Spade lowest
+	if(s>=5){
 		return FLUSH + SPADE;
 	}
-	else if(c==5){
+	else if(c>=5){
 		return FLUSH + CLUBS;
 	}
-	else if(d==5){
+	else if(d>=5){
 		return FLUSH + DIAMONDS;
 	}
-	else if(h==5){
+	else if(h>=5){
 		return FLUSH + HEARTS;
+	}else{
+		return 0;
 	}
 	
 	
@@ -337,13 +367,12 @@ int checkFlushPlayer(){
 int checkFlushComputer(){
 	FILE *points;
 	points = fopen("points2.txt", "r");
-
+	
 	char p;
 	int s=0, c=0, d=0, h=0;
 
 	while((p = fgetc(points)) != EOF){
 		switch(p){
-			//default: other++; break;
 			case 'S': s ++; break;
 			case 'C': c ++; break;
 			case 'D': d ++; break;
@@ -364,7 +393,10 @@ int checkFlushComputer(){
 	}
 	else if(h==5){
 		return FLUSH + HEARTS;
+	}else{
+		return 0;
 	}
+	
 }
 
 int checkStraightPlayer(){
@@ -372,9 +404,13 @@ int checkStraightPlayer(){
 	points = fopen("points1.txt", "r");
 	char p;
 	
+	//used save the face values of the cards
 	int f1=0, f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	
+	//used in for loop to arrange the cards in descending order
 	int i,j;
 	
+	//gets all the different values of cards
 	while((p=fgetc(points)) != EOF){
 		switch(p){
 			case'2': f2=2; break;
@@ -389,38 +425,42 @@ int checkStraightPlayer(){
 			case'J': f11=11; break;
 			case'Q': f12=12; break;
 			case'K': f13=13; break;
-			case'A': f1=1; f14=14; break;
+			case'A': f1=1; f14=14; break;	// A (Ace) as a 1 in straight is the only place the value is needed for comparison
 		}
 	}
+	
+	//saves the values in an array
 	int rank[RANK+1] = {f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
 	
 	fclose(points);
-
-	for(i=0; i<RANK+1; i++){
-		for(j=0; j<RANK+1; j++){
-			if(rank[i]>rank[j]){
-				int tmp=rank[i];
-				rank[i]=rank[j];
-				rank[j]=tmp;
+	
+	for(i=0; i<RANK+1; i++){	//loop to create an ascending order
+		for(j=0; j<RANK+1; j++){	//loop to compare values to each other
+			if(rank[i]>rank[j]){	//compares the values
+				int tmp=rank[i];	//temporarily saves the value
+				rank[i]=rank[j];	//replaces the value
+				rank[j]=tmp;		//stores the value
 			}
 		}
 	}
 
-	if		(rank[0]-1 == rank[1] && rank[1]-1 == rank[2] && rank[2]-1 == rank[3] && rank[3]-1 == rank[4]){
-		return STRAIGHT + rank[0];
-	}else if(rank[1]-1 == rank[2] && rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4]-1 == rank[5]){
-		return STRAIGHT + rank[1];
-	}else if(rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5]-1 == rank[6]){
-		return STRAIGHT + rank[2];
-	}else if(rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5]-1 == rank[6] && rank[6]-1 == rank[7]){
-		return STRAIGHT + rank[3];
+	//now that the values are in descending (7 cards) there are only 4 ways for them to be consecutive numbers (5 consecutive)
+	if		(rank[0]-1 == rank[1] && rank[1]-1 == rank[2] && rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4] != 0){
+		return STRAIGHT + rank[0]; 	//returns value for comparing and the highest value in the straight
+	}else if(rank[1]-1 == rank[2] && rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5] != 0){
+		return STRAIGHT + rank[1];	//returns value for comparing and the highest value in the straight
+	}else if(rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5]-1 == rank[6] && rank[6] != 0){
+		return STRAIGHT + rank[2];	//returns value for comparing and the highest value in the straight
+	}else if(rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5]-1 == rank[6] && rank[6]-1 == rank[7] && rank[7] != 0){
+		return STRAIGHT + rank[3];	//returns value for comparing and the highest value in the straight
 	}else{
-		return 0;
+		return 0;	//and if there is no straight return value is 0
 	}
 
 
 }
 
+//same as for the player in the earlier function
 int checkStraightComputer(){
 	FILE *points;
 	points = fopen("points2.txt", "r");
@@ -460,13 +500,13 @@ int checkStraightComputer(){
 		}
 	}
 
-	if		(rank[0]-1 == rank[1] && rank[1]-1 == rank[2] && rank[2]-1 == rank[3] && rank[3]-1 == rank[4]){
+	if		(rank[0]-1 == rank[1] && rank[1]-1 == rank[2] && rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4] != 0){
 		return STRAIGHT + rank[0];
-	}else if(rank[1]-1 == rank[2] && rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4]-1 == rank[5]){
+	}else if(rank[1]-1 == rank[2] && rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5] != 0){
 		return STRAIGHT + rank[1];
-	}else if(rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5]-1 == rank[6]){
+	}else if(rank[2]-1 == rank[3] && rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5]-1 == rank[6] && rank[6] != 0){
 		return STRAIGHT + rank[2];
-	}else if(rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5]-1 == rank[6] && rank[6]-1 == rank[7]){
+	}else if(rank[3]-1 == rank[4] && rank[4]-1 == rank[5] && rank[5]-1 == rank[6] && rank[6]-1 == rank[7] && rank[7] != 0){
 		return STRAIGHT + rank[3];
 	}else{
 		return 0;
@@ -474,17 +514,22 @@ int checkStraightComputer(){
 
 }
 
+//checks pairs, threes and fullhouse for player
 int checkPairAndThreePlayer(){
 	FILE *points;
 	points = fopen("points1.txt", "r");
 	char p;
+	//count save the amount of the same face values
 	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0;
+	//and f (face) save the value of face of the cards
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	//also need to save suits to close out other possibilities
 	int s=0, c=0, d=0, h=0;
-	int i, j, tmp;
-	int firstPairValue, secondPairValue, thirdPairValue, highPairValue, highThreeValue;
-	int pair = 0;
-	int three = 0;
+
+	int i, j, tmp;	//used in for loop to put pair values in descending order
+	int firstPairValue, secondPairValue, thirdPairValue, highThreeValue; // used for return values
+	int pair = 0; //used to check amount of pairs
+	int three = 0;	// used to check amount of threes
 	while((p=fgetc(points)) != EOF){
 		switch(p){
 			case 'S': s ++; break;
@@ -507,64 +552,61 @@ int checkPairAndThreePlayer(){
 		}
 	}
 	
-	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
-	int count[RANK] = {count2,count3,count4,count5,count6,count7,count8,count9,count10,count11,count12,count13,count14};
+	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};	//save the face values to array
+	int count[RANK] = {count2,count3,count4,count5,count6,count7,count8,count9,count10,count11,count12,count13,count14}; // save the amount to array
 	
 	fclose(points);
 	
-	for(i=0; i<RANK; i++){
+	for(i=0; i<RANK; i++){	//loop for amount of values
 		
-		if(count[i]==2){
+		if(count[i]==2){	//checks if there are pairs
 
-			pair++;
-			highPairValue = rank[i];
-			for(j=0; j<3; j++){
+			pair++;		//saves the amount of pairs
+			for(j=0; j<3; j++){		// loops the values of pairs in descending order (max 3)
 				tmp = rank[i];
 				rank[i] = rank[j];
 				rank[j] = tmp;
 			}
 			
-		}else if(count[i]==3){
-			three++;
-			highThreeValue = rank[i];
+		}else if(count[i]==3){	
+			three++;	// saves the amount of threes
+			highThreeValue = rank[i];	// saves the higher value of threes (max 2)
 		}
 		
 	}
 	
-	firstPairValue = rank[0];
+	firstPairValue = rank[0];	//saves the highest value of pair to lowest
 	secondPairValue = rank[1];
 	thirdPairValue = rank[2];
 	
 	
-	if		(pair>=2 && three==0){
+	if		(pair>=2 && three==0){	// if there are 2 or 3 pairs
 		
-		if		(firstPairValue > secondPairValue && firstPairValue > thirdPairValue){
-			return 2*PAIR + firstPairValue + secondPairValue;
-		}else if(secondPairValue > firstPairValue && secondPairValue > thirdPairValue){
-			return 2*PAIR + firstPairValue + secondPairValue;
-		}else if(thirdPairValue > firstPairValue && thirdPairValue > secondPairValue){
-			return 2*PAIR + thirdPairValue + secondPairValue;
-		}
+			return 2*PAIR + firstPairValue + secondPairValue;	//2 PAIR values and the face values regarding pairs
 	
-				
-	}else if(pair==1 && three == 0 && s < 6 && c < 6 && d < 6 && h < 6){
+	}else if(pair==1 && three == 0 && s < 6 && c < 6 && d < 6 && h < 6){	// here is a possibility for a flush to overlap (1 pair)
 			
-		return PAIR + highPairValue;
+		return PAIR + firstPairValue;
 		
-	}else if(pair == 0 && three == 1 && s < 6 && c < 6 && d < 6 && h < 6){
+	}else if(pair == 0 && three == 1 && s < 6 && c < 6 && d < 6 && h < 6){	// here is a possibility for a flush to overlap (1 three)
 		
 		return THREE + highThreeValue;
 			
-	}else if((pair >= 1 && three == 1) || (three == 2)){
+	}else if(pair >= 1 && three == 1){ 		//pair and three (fullhouse)
+		
+		return FULLHOUSE + highThreeValue + firstPairValue;
+		
+	}else if(three == 2){	//two times three (fullhouse) returns the higher value
 		
 		return FULLHOUSE + highThreeValue;
 		
 	}else{
-		return 0;
+		return 0;	//and if conditions aren't met value of function will be 0
 	}
 		
 }
 
+//same as for the player to check pairs and such
 int checkPairAndThreeComputer(){
 	
 	FILE *points;
@@ -575,7 +617,7 @@ int checkPairAndThreeComputer(){
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
 	int s=0, c=0, d=0, h=0;
 	int i, j, tmp;
-	int firstPairValue, secondPairValue, thirdPairValue, highPairValue, highThreeValue;
+	int firstPairValue, secondPairValue, thirdPairValue, highThreeValue;
 	int pair = 0;
 	int three = 0;
 	while((p=fgetc(points)) != EOF){
@@ -610,7 +652,6 @@ int checkPairAndThreeComputer(){
 		if(count[i]==2){
 
 			pair++;
-			highPairValue = rank[i];
 			for(j=0; j<3; j++){
 				tmp = rank[i];
 				rank[i] = rank[j];
@@ -642,7 +683,7 @@ int checkPairAndThreeComputer(){
 				
 	}else if(pair==1 && three == 0 && s < 6 && c < 6 && d < 6 && h < 6){
 			
-		return PAIR + highPairValue;
+		return PAIR + firstPairValue;
 		
 	}else if(pair == 0 && three == 1 && s < 6 && c < 6 && d < 6 && h < 6){
 		
@@ -650,24 +691,29 @@ int checkPairAndThreeComputer(){
 			
 	}else if((pair >= 1 && three == 1) || (three == 2)){
 		
-		return FULLHOUSE + highThreeValue;
+		return FULLHOUSE + highThreeValue + firstPairValue;
 		
+	}else if(three == 2){
+		return FULLHOUSE + highThreeValue;
 	}else{
 		return 0;
 	}
 	
 }
 
+//used to check the high card to some extent
 int checkHighCardPlayer(){
 	FILE *points;
 	points = fopen("points1.txt", "r");
 	char p;
+	//face values
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	//amount of same face values
 	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0;
-	int s=0, c=0, d=0, h=0;
-	int i, j;
-	int pair=0, three=0, four=0;
-	int first, second, third, fourth, fifth;
+	int s=0, c=0, d=0, h=0; 	// suits
+	int i, j;	//loop for descending order
+	int pair=0, three=0, four=0;	//amount of pairs, threes, fours
+	int first, second, third, fourth, fifth;// to save 5 of the highest cards
 	while((p=fgetc(points)) != EOF){
 		switch(p){
 			case'S': s++; break;
@@ -689,12 +735,14 @@ int checkHighCardPlayer(){
 			case'A': f14=14; count14++; break;
 		}
 	}
+	//save amounts to array
 	int count[RANK] = {count2,count3,count4,count5,count6,count7,count8,count9,count10,count11,count12,count13,count14};
+	//save face values to array
 	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
 	
 	fclose(points);
 	
-	for(i=0; i<RANK; i++){
+	for(i=0; i<RANK; i++){	// put in descending order
 		for(j=0; j<RANK; j++){
 			if(rank[j]<rank[i]){
 				int tmp=rank[i];
@@ -704,13 +752,13 @@ int checkHighCardPlayer(){
 		}
 	}
 	
-	first = rank[0];
+	first = rank[0];	//saved to highest to lowest (five cards)
 	second = rank[1];
 	third = rank[2];
 	fourth = rank[3];
 	fifth = rank[4];
 	
-	for(i=0; i<RANK; i++){
+	for(i=0; i<RANK; i++){	//checking amount of pairs threes and fours
 		if(count[i]==4){
 			four++;
 		}else if(count[i]==3){
@@ -720,7 +768,7 @@ int checkHighCardPlayer(){
 		}
 	}
 	
-	if(s == 5 || c == 5 || d == 5 || h == 5){
+	if(s == 5 || c == 5 || d == 5 || h == 5){	//if theres a flush are 5 card places are used
 			return 0;
 	}else if(four==1){
 		for(i=0; i<RANK; i++){
