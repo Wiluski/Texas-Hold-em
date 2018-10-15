@@ -1,5 +1,6 @@
 // all the defined values and function prototypes are in the header file
 // all the computers functions are identical to the players (exept for the file they read)
+// so the computer functions aren't commented
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -14,16 +15,16 @@ int main(int argc, char** argv) {
 	//runs the function to deal the cards
 	deal();
 	
-	//if the function straight returns a value there is no need to check the high card function
-	if(checkStraightPlayer()==0){
+	//if the functions straight and flush returns a value there is no need to check the high card function
+	if(checkStraightPlayer()==0 || checkFlushPlayer() == 0){
 		//sums the values of the functions together
 		pointsPlayer = checkPairAndThreePlayer() + checkStraightPlayer() + checkFlushPlayer() + checkFourPlayer() + checkHighCardPlayer();
 	}else{
 		pointsPlayer = checkPairAndThreePlayer() + checkStraightPlayer() + checkFlushPlayer() + checkFourPlayer();
 	}
 	
-	//if the function straight returns a value there is no need to check the high card function
-	if(checkStraightComputer()==0){
+	//if the functions straight and flush returns a value there is no need to check the high card function
+	if(checkStraightComputer()==0 || checkFlushComputer() == 0){
 		//sums the values of the functions together
 		pointsComputer = checkPairAndThreeComputer() + checkStraightComputer() + checkFlushComputer() + checkFourComputer() + checkHighCardComputer();
 	}else{
@@ -74,14 +75,14 @@ void deal(){
 	srand((unsigned) time(&t));
 			
 		//first for loop for first hand, randomises 2 face values and 2 suit values to a file for player
-		for(h1=1;h1<=HAND; h1++){
+		for(h1=1;h1<=CARD; h1++){
 			pullCard = rand() % FACE;
 			pullSuit = rand() % SUIT;
 			fprintf(hand1,"%c%c ", face[pullCard], suit[pullSuit]);
 		}
 		
 		//second for loop for second hand, randomises 2 face values and 2 suit values to a file for computer
-		for(h2=1;h2<=HAND; h2++){
+		for(h2=1;h2<=CARD; h2++){
 			pullCard = rand() % FACE;
 			pullSuit = rand() % SUIT;
 			fprintf(hand2,"%c%c ", face[pullCard], suit[pullSuit]);
@@ -265,7 +266,7 @@ int checkFourPlayer(){
 			four++;
 			
 			if(four==1){
-				//returns defined value and the place in array
+				//returns defined value and the place (face value) in array
 				return FOUR + i + 2;
 				
 			}else{
@@ -329,12 +330,19 @@ int checkFourComputer(){
 int checkFlushPlayer(){
 	FILE *points;
 	points = fopen("points1.txt", "r");
-
-	char p, tmp; 	// p is used for reading file, tmp to temporarily save the char of suits
-	char cards[CARDS]; 		// cards from file are saved there
-	char spades[SUITSUM], clubs[SUITSUM], diamonds[SUITSUM], hearts[SUITSUM];	// char value of face of the card corresponding suit is saved here
 	
-	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;	// used to convert face char to int value
+	// p is used for reading file, tmp to temporarily save the char of suits
+	char p, tmp;
+
+	// cards from file are saved there
+	char cards[CARDS]; 
+	
+	// char value of face of the card corresponding suit is saved here
+	char spades[SUITSUM], clubs[SUITSUM], diamonds[SUITSUM], hearts[SUITSUM];	
+	
+	// used to convert face char to int value
+	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	
 	int s=0, c=0, d=0, h=0;		// amount of a suit is saved here
 	int i = 0, j, value;		// i,j used in for loops, value to add up the values of flush face values
 	int count;					// addresses the suit which makes a flush
@@ -406,12 +414,12 @@ int checkFlushPlayer(){
 	
 	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};	//fills the values to an array
 			
-	for(i=0; i<RANK; i++){			//rearranges the values to an descending order
-		for(j=0; j<RANK; j++){
-			if(rank[j]<rank[i]){
-				int tmp=rank[i];
-				rank[i]=rank[j];
-				rank[j]=tmp;
+	for(i=0; i<RANK+1; i++){		//loop to create an ascending order
+		for(j=0; j<RANK+1; j++){	//loop to compare values to each other
+			if(rank[i]>rank[j]){	//compares the values
+				tmp=rank[i];		//temporarily saves the value
+				rank[i]=rank[j];	//replaces the value
+				rank[j]=tmp;		//stores the value in array
 			}
 		}
 	}
@@ -559,7 +567,7 @@ int checkStraightPlayer(){
 	int f1=0, f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
 	
 	//used in for loop to arrange the cards in descending order
-	int i,j;
+	int i, j, tmp;
 	
 	//gets all the different values of cards
 	while((p=fgetc(points)) != EOF){
@@ -585,10 +593,10 @@ int checkStraightPlayer(){
 	
 	fclose(points);
 	
-	for(i=0; i<RANK+1; i++){	//loop to create an ascending order
+	for(i=0; i<RANK+1; i++){		//loop to create an ascending order
 		for(j=0; j<RANK+1; j++){	//loop to compare values to each other
 			if(rank[i]>rank[j]){	//compares the values
-				int tmp=rank[i];	//temporarily saves the value
+				tmp=rank[i];		//temporarily saves the value
 				rank[i]=rank[j];	//replaces the value
 				rank[j]=tmp;		//stores the value
 			}
@@ -618,7 +626,7 @@ int checkStraightComputer(){
 	char p;
 	
 	int f1=0, f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
-	int i,j;
+	int i,j,tmp;
 	
 	while((p=fgetc(points)) != EOF){
 		switch(p){
@@ -644,7 +652,7 @@ int checkStraightComputer(){
 	for(i=0; i<RANK+1; i++){
 		for(j=0; j<RANK+1; j++){
 			if(rank[i]>rank[j]){
-				int tmp=rank[i];
+				tmp=rank[i];
 				rank[i]=rank[j];
 				rank[j]=tmp;
 			}
@@ -733,7 +741,7 @@ int checkPairAndThreePlayer(){
 	
 	if		(pair>=2 && three==0){	// if there are 2 or 3 pairs
 		
-			return 2*PAIR + firstPairValue + secondPairValue;	//2 PAIR values and the face values regarding pairs
+		return 2*PAIR + firstPairValue + secondPairValue;	//2 times the PAIR values and the face values regarding pairs
 	
 	}else if(pair==1 && three == 0 && s < 6 && c < 6 && d < 6 && h < 6){	// here is a possibility for a flush to overlap (1 pair)
 			
@@ -857,20 +865,28 @@ int checkHighCardPlayer(){
 	FILE *points;
 	points = fopen("points1.txt", "r");
 	char p;
-	//face values
+	
+		// fills face values
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
-	//amount of same face values
-	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0;
-	int s=0, c=0, d=0, h=0; 	// suits
-	int i, j;	//loop for descending order
-	int pair=0, three=0, four=0;	//amount of pairs, threes, fours
-	int first, second, third, fourth, fifth;// to save 5 of the highest cards
+	
+		// fills the amount of values
+	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0; 
+	
+		// i mainly used in for loops, j when need to get consecutive numbers and tmp when to temporarily save a card
+	int i, j, tmp;
+	
+		// counts the amount of pairs, threes and fours
+	int pair=0, three=0, four=0;
+	
+		// 5 highest cards are saved here
+	int first, second, third, fourth, fifth;
+	
+		//used get a value if there are three pairs
+	int amount[TABLE];
+	
+		//stores the face values and the amount of values
 	while((p=fgetc(points)) != EOF){
 		switch(p){
-			case'S': s++; break;
-			case'C': c++; break;
-			case'D': d++; break;
-			case'H': h++; break;
 			case'2': f2=2; count2++; break;
 			case'3': f3=3; count3++; break;
 			case'4': f4=4; count4++; break;
@@ -886,75 +902,63 @@ int checkHighCardPlayer(){
 			case'A': f14=14; count14++; break;
 		}
 	}
-	//save amounts to array
+	
+	//stores the amount values and face values in an array
 	int count[RANK] = {count2,count3,count4,count5,count6,count7,count8,count9,count10,count11,count12,count13,count14};
-	//save face values to array
 	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
+	
+	for(i=0; i<RANK; i++){	// if there exists a larger quantity of a single number, it's ignored
+		if(count[i]>1){
+			rank[i]=0;
+		}
+	}
 	
 	fclose(points);
 	
-	for(i=0; i<RANK; i++){	// put in descending order
+	for(i=0; i<RANK; i++){	// numbers are arranged in an ascending order
 		for(j=0; j<RANK; j++){
 			if(rank[j]<rank[i]){
-				int tmp=rank[i];
+				tmp=rank[i];
 				rank[i]=rank[j];
 				rank[j]=tmp;
 			}
 		}
 	}
 	
-	first = rank[0];	//saved to highest to lowest (five cards)
+	first = rank[0];	//five of the largest remaining numbers are stored
 	second = rank[1];
 	third = rank[2];
 	fourth = rank[3];
 	fifth = rank[4];
 	
-	for(i=0; i<RANK; i++){	//checking amount of pairs threes and fours
+	for(i=0; i<RANK; i++){	//counting the amount of fours threes and pairs
 		if(count[i]==4){
 			four++;
 		}else if(count[i]==3){
 			three++;
 		}else if(count[i]==2){
+			amount[pair] = i+2;	//calculates the smallest value of pairs (if there's 3 pairs)
 			pair++;
 		}
 	}
 	
-	if(s == 5 || c == 5 || d == 5 || h == 5){	//if theres a flush all 5 card places are used
-			return 0;
-	}else if(four==1){
-		for(i=0; i<RANK; i++){
-			if(count[i]==4 && i == first-2){
-				return second;
-			}else{
-				return first;
-			}
-		}
-	}else if(three >= 1 && four == 0 && pair == 0){
-		for(i=0; i<RANK; i++){
-			if(count[i]==3 && i == first-2){
-				return second+third;
-			}else if(count[i]==3 && i == second - 2){
-				return first+third;
-			}else{
-				return first+second;
-			}
-		}
-	}else if(pair >= 1 && four == 0 && three == 0){
-		for(i=0; i<RANK; i++){
-			if(count[i]==2 && i == first-2){
-				return second+third+fourth+fifth;
-			}else if(count[i]==2 && i == second-2){
-				return first+third+fourth+fifth;
-			}else if(count[i]==2 && i == third-2){
-				return first+second+fourth+fifth;
-			}else if(count[i]==2 && i == fourth-2){
-				return first+second+third+fifth;
-			}else{
-				return first+second+third+fourth;
-			}
-		}
-	}else if(pair == 0 && three == 0 && four == 0){
-		return first+second+third+fourth+fifth;
+	if(four==1){	// if theres 4 of the same value, room only for 1 number
+		return first;
+	}else if(four==0 && three==1 && pair==0){	// if threes apprear only once, room for sum of 2 numbers
+		return first + second;
+		
+	}else if(pair == 3){						//3 pair exeption, the smallest value of the pairs is returned
+		return amount[0];
+		
+	}else if(four==0 && three==0 && pair==2){	//2 pairs, room for 1
+		return first;
+		
+	}else if(four==0 && three==0 && pair==1){	// 1 pair room for sum of 3
+		return first + second + third;
+		
+	}else if(four==0 && three==0 && pair==0){	//nothing but the highest cards return sum of five
+		return first + second + third + fourth + fifth;
+		
 	}else{
 		return 0;
 	}
@@ -967,16 +971,14 @@ int checkHighCardComputer(){
 	char p;
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
 	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0;
-	int s=0, c=0, d=0, h=0;
-	int i, j;
+	int i, j, tmp;
 	int pair=0, three=0, four=0;
 	int first, second, third, fourth, fifth;
+	int amount[TABLE];
+	
+	
 	while((p=fgetc(points)) != EOF){
 		switch(p){
-			case'S': s++; break;
-			case'C': c++; break;
-			case'D': d++; break;
-			case'H': h++; break;
 			case'2': f2=2; count2++; break;
 			case'3': f3=3; count3++; break;
 			case'4': f4=4; count4++; break;
@@ -995,12 +997,18 @@ int checkHighCardComputer(){
 	int count[RANK] = {count2,count3,count4,count5,count6,count7,count8,count9,count10,count11,count12,count13,count14};
 	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};
 	
+	for(i=0; i<RANK; i++){
+		if(count[i]>1){
+			rank[i]=0;
+		}
+	}
+	
 	fclose(points);
 	
 	for(i=0; i<RANK; i++){
 		for(j=0; j<RANK; j++){
 			if(rank[j]<rank[i]){
-				int tmp=rank[i];
+				tmp=rank[i];
 				rank[i]=rank[j];
 				rank[j]=tmp;
 			}
@@ -1019,46 +1027,23 @@ int checkHighCardComputer(){
 		}else if(count[i]==3){
 			three++;
 		}else if(count[i]==2){
+			amount[pair] = i+2;
 			pair++;
 		}
 	}
 	
-	if(s == 5 || c == 5 || d == 5 || h == 5){
-			return 0;
-	}else if(four==1){
-		for(i=0; i<RANK; i++){
-			if(count[i]==4 && i == first-2){
-				return second;
-			}else{
-				return first;
-			}
-		}
-	}else if(three >= 1 && four == 0 && pair == 0){
-		for(i=0; i<RANK; i++){
-			if(count[i]==3 && i == first-2){
-				return second+third;
-			}else if(count[i]==3 && i == second - 2){
-				return first+third;
-			}else{
-				return first+second;
-			}
-		}
-	}else if(pair >= 1 && four == 0 && three == 0){
-		for(i=0; i<RANK; i++){
-			if(count[i]==2 && i == first-2){
-				return second+third+fourth+fifth;
-			}else if(count[i]==2 && i == second-2){
-				return first+third+fourth+fifth;
-			}else if(count[i]==2 && i == third-2){
-				return first+second+fourth+fifth;
-			}else if(count[i]==2 && i == fourth-2){
-				return first+second+third+fifth;
-			}else{
-				return first+second+third+fourth;
-			}
-		}
-	}else if(pair == 0 && three == 0 && four == 0){
-		return first+second+third+fourth+fifth;
+	if(four==1){
+		return first;
+	}else if(four==0 && three==1 && pair==0){
+		return first + second;
+	}else if(pair == 3){
+		return amount[0];
+	}else if(four==0 && three==0 && pair==2){
+		return first;
+	}else if(four==0 && three==0 && pair==1){
+		return first + second + third;
+	}else if(four==0 && three==0 && pair==0){
+		return first + second + third + fourth + fifth;
 	}else{
 		return 0;
 	}

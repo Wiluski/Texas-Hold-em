@@ -1,25 +1,23 @@
 #include <stdio.h>
 #include <string.h>
-#define HAND 2
-#define CARD 2
-#define SUIT 4
-#define TABLE 5
-#define SUITSUM 7
-#define CARDS 19
-#define TABLE2 14
-#define FACE 13
-#define RANK 13
-#define PAIR 100
-#define THREE 300
+#define CARD 2	// fills hand arrays of cards (deal) defines the size of cards (compare)
+#define SUIT 4	// used to determine size of suit array
+#define TABLE 5	// size of hands mainly for the size of table suit and face
+#define SUITSUM 7 //amount of max of same suit
+#define CARDS 19 // Used to fill arrays which use point files
+#define TABLE2 14 // sets the size for array which stores values of table file
+#define FACE 13	// size for array containing face characters
+#define RANK 13	// used for arrays handling face values
+#define PAIR 100	//sets return values of points from pairs
+#define THREE 300	
 #define STRAIGHT 400
 #define FLUSH 500
 #define FULLHOUSE 600
-#define FOUR 700
-#define FIVE 800
-#define SPADE 10
+#define FOUR 700	//all the way to royal flush (900 straight + flush)
+#define SPADE 10	//sets return values of flush from spades
 #define CLUBS 20
 #define DIAMONDS 30
-#define HEARTS 40
+#define HEARTS 40	//to hearts
 
 void deal();
 void menu();
