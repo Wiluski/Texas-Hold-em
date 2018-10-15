@@ -1,4 +1,5 @@
 // all the defined values and function prototypes are in the header file
+// all the computers functions are identical to the players (exept for the file they read)
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -33,8 +34,8 @@ int main(int argc, char** argv) {
 	//prints out only the points aquired throughout the functions and the cards can be found in the text files
 	//are coded to be stored to same file where the program is ran
 	if(pointsPlayer > pointsComputer){
-		printf("The player wins! %d, %d", pointsPlayer, pointsComputer); 
-	}else if(pointsComputer > pointsPlayer){
+		printf("The player wins! %d, %d", pointsPlayer, pointsComputer); 	//straight flush gets value of over 900 by combining
+	}else if(pointsComputer > pointsPlayer){								//so it will stay the absolute
 		printf("The computer wins! %d, %d", pointsComputer, pointsPlayer);
 	}else{
 		printf("its a draw");
@@ -123,7 +124,7 @@ void compare(){
 	// copying values of the hand array to determine first 2 cards (players)
 	strncpy(card1, hand, CARD);
 	strncpy(card2, hand+3, CARD);
-	card1[CARD] = '\0';
+	card1[CARD] = '\0';	//not fighting the rules of an array
 	card2[CARD] = '\0';
 	
 	for(i=0; i<TABLE; i++){
@@ -329,38 +330,111 @@ int checkFlushPlayer(){
 	FILE *points;
 	points = fopen("points1.txt", "r");
 
-	char p;
-	//used to save amount of spades, clubs, diamonds and hears
-	int s=0, c=0, d=0, h=0;
+	char p, tmp; 	// p is used for reading file, tmp to temporarily save the char of suits
+	char cards[CARDS]; 		// cards from file are saved there
+	char spades[SUITSUM], clubs[SUITSUM], diamonds[SUITSUM], hearts[SUITSUM];	// char value of face of the card corresponding suit is saved here
 	
-	while((p = fgetc(points)) != EOF){
-		switch(p){
-			case 'S': s ++; break;
-			case 'C': c ++; break;
-			case 'D': d ++; break;
-			case 'H': h ++; break;
-		}
-
+	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;	// used to convert face char to int value
+	int s=0, c=0, d=0, h=0;		// amount of a suit is saved here
+	int i = 0, j, value;		// i,j used in for loops, value to add up the values of flush face values
+	int count;					// addresses the suit which makes a flush
+	
+	while((p = fgetc(points)) != EOF){ 		//cards are saved to an char array
+		cards[i] = p;
+		i++;
 	}
 	
-	fclose(points);
+	fclose(points);					// file is closed
+
+	for(i=0; i<CARDS; i++){			// face char values are run throught the for loop
+		
+		if(cards[i]== 'S'){			// fills the face values which correspond to s (spades)
+			tmp = cards[i-1];		//temporarily saves the value (one before the character 'S')
+			cards[i-1] = spades[s];	//replaces the value
+			spades[s] = tmp;		//stores the value to array
+			s++;					//adds the amount of spades
+			
+		}else if(cards[i]=='C'){	// fills the face values which correspond to c (clubs)
+			tmp = cards[i-1];
+			cards[i-1] = clubs[c];
+			clubs[c] = tmp;
+			c++;
+			
+		}else if(cards[i]=='D'){	// fills the face values which correspond to d (diamonds)
+			tmp = cards[i-1];
+			cards[i-1] = diamonds[d];
+			diamonds[d] = tmp;
+			d++;
+		}else if(cards[i]=='H'){	// fills the face values which correspond to h (hearts)
+			tmp = cards[i-1];
+			cards[i-1] = hearts[h];
+			hearts[h] = tmp;
+			h++;
+		}
+			
+	}
+
+
+	for(i=0; i<SUITSUM; i++){		//char values are stored through this loop
 	
-	//checks if there are 5 or more of the same suit and returns a value according to that Heart highest Spade lowest
-	if(s>=5){
-		return FLUSH + SPADE;
+		if(s>=5){					//checks which of the suits can combine a flush
+			count = spades[i];		//and stores it count to check through switch - case loop
+		}else if(c>=5){
+			count = clubs[i];
+		}else if(d>=5){
+			count = diamonds[i];
+		}else if(h>=5){
+			count = hearts[i];
+		}
+		
+		switch(count){				//fills the integer values of the suit which creates a flush
+			case'2': f2=2; break;
+			case'3': f3=3; break;
+			case'4': f4=4; break;
+			case'5': f5=5; break;
+			case'6': f6=6; break;
+			case'7': f7=7; break;
+			case'8': f8=8; break;
+			case'9': f9=9; break;
+			case'T': f10=10; break;
+			case'J': f11=11; break;
+			case'Q': f12=12; break;
+			case'K': f13=13; break;
+			case'A': f14=14; break;
+		}
+	}
+	
+	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};	//fills the values to an array
+			
+	for(i=0; i<RANK; i++){			//rearranges the values to an descending order
+		for(j=0; j<RANK; j++){
+			if(rank[j]<rank[i]){
+				int tmp=rank[i];
+				rank[i]=rank[j];
+				rank[j]=tmp;
+			}
+		}
+	}
+	
+	for(i=0; i<5; i++){				//adds the values up
+		value += rank[i];			//and stores them to a single integer
+	}
+	
+	
+	if(s>=5){						//checks what values to return (spades lowest, hearts highest)
+		return FLUSH + SPADE + value;	//return value corresponding suit and face values
 	}
 	else if(c>=5){
-		return FLUSH + CLUBS;
+		return FLUSH + CLUBS + value;
 	}
 	else if(d>=5){
-		return FLUSH + DIAMONDS;
+		return FLUSH + DIAMONDS + value;
 	}
 	else if(h>=5){
-		return FLUSH + HEARTS;
+		return FLUSH + HEARTS + value;
 	}else{
-		return 0;
+		return 0;					//if theres no flush, 0 is returned
 	}
-	
 	
 }
 
@@ -369,35 +443,111 @@ int checkFlushComputer(){
 	FILE *points;
 	points = fopen("points2.txt", "r");
 	
-	char p;
-	int s=0, c=0, d=0, h=0;
+	char p, tmp; 	
+	char cards[CARDS]; 		
+	char spades[SUITSUM], clubs[SUITSUM], diamonds[SUITSUM], hearts[SUITSUM];
+	
+	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
+	int s=0, c=0, d=0, h=0;	
+	int i = 0, j, value;		
+	int count;					
+	
+	while((p = fgetc(points)) != EOF){ 		
+		cards[i] = p;
+		i++;
+	}
+	
+	fclose(points);				
 
-	while((p = fgetc(points)) != EOF){
-		switch(p){
-			case 'S': s ++; break;
-			case 'C': c ++; break;
-			case 'D': d ++; break;
-			case 'H': h ++; break;
+	for(i=0; i<CARDS; i++){		
+		
+		if(cards[i]== 'S'){			
+			tmp = cards[i-1];		
+			cards[i-1] = spades[s];	
+			spades[s] = tmp;		
+			s++;					
+			
+		}else if(cards[i]=='C'){
+			tmp = cards[i-1];
+			cards[i-1] = clubs[c];
+			clubs[c] = tmp;
+			c++;
+			
+		}else if(cards[i]=='D'){	
+			tmp = cards[i-1];
+			cards[i-1] = diamonds[d];
+			diamonds[d] = tmp;
+			d++;
+		}else if(cards[i]=='H'){	
+			tmp = cards[i-1];
+			cards[i-1] = hearts[h];
+			hearts[h] = tmp;
+			h++;
+		}
+			
+	}
+
+
+	for(i=0; i<SUITSUM; i++){		
+	
+		if(s>=5){					
+			count = spades[i];		
+		}else if(c>=5){
+			count = clubs[i];
+		}else if(d>=5){
+			count = diamonds[i];
+		}else if(h>=5){
+			count = hearts[i];
+		}
+		
+		switch(count){				
+			case'2': f2=2; break;
+			case'3': f3=3; break;
+			case'4': f4=4; break;
+			case'5': f5=5; break;
+			case'6': f6=6; break;
+			case'7': f7=7; break;
+			case'8': f8=8; break;
+			case'9': f9=9; break;
+			case'T': f10=10; break;
+			case'J': f11=11; break;
+			case'Q': f12=12; break;
+			case'K': f13=13; break;
+			case'A': f14=14; break;
 		}
 	}
-
-	fclose(points);
 	
-	if(s==5){
-		return FLUSH + SPADE;
+	int rank[RANK] = {f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14};	
+			
+	for(i=0; i<RANK; i++){			
+		for(j=0; j<RANK; j++){
+			if(rank[j]<rank[i]){
+				int tmp=rank[i];
+				rank[i]=rank[j];
+				rank[j]=tmp;
+			}
+		}
 	}
-	else if(c==5){
-		return FLUSH + CLUBS;
+	
+	for(i=0; i<5; i++){				
+		value += rank[i];			
 	}
-	else if(d==5){
-		return FLUSH + DIAMONDS;
+	
+	
+	if(s>=5){						
+		return FLUSH + SPADE + value;	
 	}
-	else if(h==5){
-		return FLUSH + HEARTS;
+	else if(c>=5){
+		return FLUSH + CLUBS + value;
+	}
+	else if(d>=5){
+		return FLUSH + DIAMONDS + value;
+	}
+	else if(h>=5){
+		return FLUSH + HEARTS + value;
 	}else{
-		return 0;
+		return 0;					
 	}
-	
 }
 
 int checkStraightPlayer(){

@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <string.h>
 #define HAND 2
-#define FACE 13
+#define CARD 2
 #define SUIT 4
 #define TABLE 5
-#define CARD 2
+#define SUITSUM 7
+#define CARDS 19
 #define TABLE2 14
+#define FACE 13
 #define RANK 13
 #define PAIR 100
 #define THREE 300
