@@ -8,16 +8,16 @@
 #define TABLE2 14 // sets the size for array which stores values of table file
 #define FACE 13	// size for array containing face characters
 #define RANK 13	// used for arrays handling face values
-#define PAIR 100	//sets return values of points from pairs
-#define THREE 300	
-#define STRAIGHT 400
-#define FLUSH 500
-#define FULLHOUSE 600
-#define FOUR 700	//all the way to royal flush (900 straight + flush)
-#define SPADE 10	//sets return values of flush from spades
-#define CLUBS 20
-#define DIAMONDS 30
-#define HEARTS 40	//to hearts
+#define PAIR 1000	//sets return values of points from pairs
+#define THREE 3000
+#define STRAIGHT 4000
+#define FLUSH 5000
+#define FULLHOUSE 6000
+#define FOUR 7000	//all the way to royal flush (9000 straight + flush)
+#define SPADE 100	//sets return values of flush from spades
+#define CLUBS 200
+#define DIAMONDS 300
+#define HEARTS 400	//to hearts
 
 void deal();
 void menu();

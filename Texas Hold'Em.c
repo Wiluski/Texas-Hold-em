@@ -15,20 +15,22 @@ int main(int argc, char** argv) {
 	//runs the function to deal the cards
 	deal();
 	
-	//if the functions straight and flush returns a value there is no need to check the high card function
+	//if the functions straight and flush returns a value there is no need to check the high card function nor the pairs, threes
+	//fours and fullhouse
 	if(checkStraightPlayer()==0 || checkFlushPlayer() == 0){
 		//sums the values of the functions together
-		pointsPlayer = checkPairAndThreePlayer() + checkStraightPlayer() + checkFlushPlayer() + checkFourPlayer() + checkHighCardPlayer();
+		pointsPlayer = checkPairAndThreePlayer() + checkFourPlayer() + checkHighCardPlayer();
 	}else{
-		pointsPlayer = checkPairAndThreePlayer() + checkStraightPlayer() + checkFlushPlayer() + checkFourPlayer();
+		pointsPlayer = checkStraightPlayer() + checkFlushPlayer();
 	}
 	
-	//if the functions straight and flush returns a value there is no need to check the high card function
+	//if the functions straight and flush returns a value there is no need to check the high card function nor the pairs, threes
+	//fours and fullhouse
 	if(checkStraightComputer()==0 || checkFlushComputer() == 0){
 		//sums the values of the functions together
-		pointsComputer = checkPairAndThreeComputer() + checkStraightComputer() + checkFlushComputer() + checkFourComputer() + checkHighCardComputer();
+		pointsComputer = checkPairAndThreeComputer() + checkFourComputer() + checkHighCardComputer();
 	}else{
-		pointsComputer == checkPairAndThreeComputer() + checkStraightComputer() + checkFlushComputer() + checkFourComputer();
+		pointsComputer == checkStraightComputer() + checkFlushComputer();
 	}
 	
 	//checks the points and determines the winner
@@ -682,8 +684,6 @@ int checkPairAndThreePlayer(){
 	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0;
 	//and f (face) save the value of face of the cards
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
-	//also need to save suits to close out other possibilities
-	int s=0, c=0, d=0, h=0;
 
 	int i, j, tmp;	//used in for loop to put pair values in descending order
 	int firstPairValue, secondPairValue, thirdPairValue, highThreeValue; // used for return values
@@ -691,10 +691,6 @@ int checkPairAndThreePlayer(){
 	int three = 0;	// used to check amount of threes
 	while((p=fgetc(points)) != EOF){
 		switch(p){
-			case 'S': s ++; break;
-			case 'C': c ++; break;
-			case 'D': d ++; break;
-			case 'H': h ++; break;
 			case'2': f2=2; count2++; break;
 			case'3': f3=3; count3++; break;
 			case'4': f4=4; count4++; break;
@@ -746,11 +742,11 @@ int checkPairAndThreePlayer(){
 		
 		return 2*PAIR + firstPairValue + secondPairValue;	//2 times the PAIR values and the face values regarding pairs
 	
-	}else if(pair==1 && three == 0 && s < 5 && c < 5 && d < 5 && h < 5){	// here is a possibility for a flush to overlap (1 pair)
+	}else if(pair==1 && three == 0){	// here is a possibility for a flush to overlap (1 pair)
 			
 		return PAIR + firstPairValue;
 		
-	}else if(pair == 0 && three == 1 && s < 5 && c < 5 && d < 5 && h < 5){	// here is a possibility for a flush to overlap (1 three)
+	}else if(pair == 0 && three == 1){	// here is a possibility for a flush to overlap (1 three)
 		
 		return THREE + highThreeValue;
 			
@@ -777,17 +773,12 @@ int checkPairAndThreeComputer(){
 	
 	int count2=0, count3=0, count4=0, count5=0, count6=0, count7=0, count8=0, count9=0, count10=0, count11=0, count12=0, count13=0, count14=0;
 	int f2=0, f3=0, f4=0, f5=0, f6=0, f7=0, f8=0, f9=0, f10=0, f11=0, f12=0, f13=0, f14=0;
-	int s=0, c=0, d=0, h=0;
 	int i, j, tmp;
 	int firstPairValue, secondPairValue, thirdPairValue, highThreeValue;
 	int pair = 0;
 	int three = 0;
 	while((p=fgetc(points)) != EOF){
 		switch(p){			
-			case 'S': s ++; break;
-			case 'C': c ++; break;
-			case 'D': d ++; break;
-			case 'H': h ++; break;
 			case'2': f2=2; count2++; break;
 			case'3': f3=3; count3++; break;
 			case'4': f4=4; count4++; break;
@@ -836,11 +827,11 @@ int checkPairAndThreeComputer(){
 		
 		return 2 * PAIR + firstPairValue + secondPairValue;
 		
-	}else if(pair==1 && three == 0 && s < 5 && c < 5 && d < 5 && h < 5){
+	}else if(pair==1 && three == 0){
 			
 		return PAIR + firstPairValue;
 		
-	}else if(pair == 0 && three == 1 && s < 5 && c < 5 && d < 5 && h < 5){
+	}else if(pair == 0 && three == 1){
 		
 		return THREE + highThreeValue;
 			
